@@ -5,295 +5,155 @@
     <title>منصة نورس الرقمية</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- مكتبة تليجرام المدمجة لقراءة بيانات الزبون والموقع الجغرافي -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
-    <!-- مكتبات Tailwind CSS و FontAwesome للأيقونات والتصميم -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700&display=swap');
         body { font-family: 'Cairo', sans-serif; }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-24">
-    <!-- الهيدر العلوي للموقع -->
-   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200">
 
-<div class="max-w-[1500px] mx-auto">
-
-<div class="h-16 px-4 flex items-center justify-between">
-
-<div class="flex items-center gap-3">
-
-<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
-
-<i class="fa-solid fa-store text-white text-lg"></i>
-
-</div>
-
-<div>
-
-<h1 class="font-black text-lg leading-none">
-
-منصة نورس
-
-</h1>
-
-<p class="text-xs text-slate-500 mt-1">
-
-التوصيل الإلكتروني
-
-</p>
-
-</div>
-
-</div>
-
-<div class="flex items-center gap-2">
-
-<button
-class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 transition">
-
-<i class="fa-solid fa-rotate-right"></i>
-
-</button>
-
-<button
-onclick="scrollToCart()"
-class="relative w-11 h-11 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span
-id="cart-count"
-class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] hidden flex items-center justify-center">
-
-0
-
-</span>
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</header>
-
-
-
-    <!-- شريط ترحيب العميل المستند إلى تليجرام -->
-   <div
-id="welcome-bar"
-class="hidden bg-gradient-to-r from-orange-500 to-red-500 text-white">
-
-<div class="max-w-[1500px] mx-auto px-5 py-4 flex items-center justify-between">
-
-<div>
-
-<div class="text-sm">
-
-مرحباً بك 👋
-
-</div>
-
-<div
-id="customer-name-display"
-class="font-black text-lg">
-
-</div>
-
-</div>
-
-<div
-class="hidden md:flex items-center gap-3">
-
-<div
-class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-
-<i class="fa-solid fa-location-dot"></i>
-
-</div>
-
-<div class="text-sm">
-
-يمكنك الطلب إلى موقعك الحالي
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-    <!-- المحتوى الرئيسي للتطبيق -->
-<main class="max-w-[1500px]       
-        <div class="lg:col-span-2 space-y-8">
-            <!-- قسم اختيار المتجر المفتوح -->
-            <section>
-                <div class="flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-store text-indigo-600 text-lg"></i>
-                    <h2 class="text-lg font-bold text-gray-950">اختر المتجر لتصفح القائمة</h2>
-                </div>
-<div id="stores" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">                    <div class="col-span-full py-6 text-center text-gray-400">
-                        <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
-                        <p>جاري جلب المتاجر المفتوحة حالياً...</p>
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+        <div class="max-w-[1500px] mx-auto px-4">
+            <div class="h-16 flex items-center justify-between gap-4">
+                
+                <div class="flex items-center gap-3">
+                    <button id="back-to-stores-btn" onclick="backToStores()" class="hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+                    <div id="header-logo" class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-store text-white text-xs"></i>
+                    </div>
+                    <div>
+                        <h1 id="app-title" class="font-black text-sm leading-none">منصة نورس</h1>
+                        <p id="app-subtitle" class="text-[9px] text-slate-500 mt-0.5">التوصيل الإلكتروني</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- قسم عرض المنتجات الخاص بالمتجر المختار -->
-<section id="products-section" class="hidden space-y-6">      
-             <div
-class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 p-8 text-white">
-
-<div class="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
-
-<div class="absolute right-0 bottom-0 w-52 h-52 rounded-full bg-white/5"></div>
-
-<div class="relative z-10">
-
-<p class="text-sm opacity-90">
-
-أنت تتصفح الآن
-
-</p>
-
-<h2
-id="selected-store-name"
-class="text-3xl font-black mt-2">
-
-اسم المتجر
-
-</h2>
-
-<p class="text-sm mt-3 opacity-90">
-
-اختر منتجاتك ثم أرسل الطلب مباشرة إلى التاجر
-
-</p>
-
-</div>
-
-</div>
-<div id="products" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>            </section>
+                <div class="relative flex-1 max-w-md">
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </span>
+                    <input id="global-search-input" oninput="handleGlobalSearch()" type="text" placeholder="ابحث عن متاجر أو منتجات..." class="w-full h-10 bg-slate-100 border border-slate-200 rounded-xl pr-9 pl-4 text-xs font-semibold focus:outline-none focus:border-orange-500 focus:bg-white transition-all">
+                </div>
+            </div>
         </div>
+    </header>
 
-        <!-- السلة الجانبية ومراجعة الحساب -->
-        <div class="lg:col-span-4">
-<div id="cart-card"
-class="sticky top-24 overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-xl">                <div class="bg-gradient-to-r from-orange-500 to-red-500 p-5 text-white">
-
-<div class="flex justify-between items-center">
-
-<div class="flex items-center gap-3">
-
-<div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-</div>
-
-<div>
-
-<h2 class="font-black text-lg">
-
-سلة الطلب
-
-</h2>
-
-<p class="text-xs opacity-90">
-
-راجع منتجاتك قبل الإرسال
-
-</p>
-
-</div>
-
-</div>
-
-<span id="cart-count-header"
-class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
-
-0
-
-</span>
-
-</div>
-
-</div>
-
-<div class="p-6">
-                    <i class="fa-solid fa-basket-shopping text-indigo-600 text-lg"></i>
-                    <h2 class="text-lg font-bold text-gray-950">سلة المشتريات الحالية</h2>
+    <main class="max-w-[1500px] mx-auto px-4 py-6">
+        
+        <section id="stores-section" class="space-y-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-utensils text-orange-600 text-sm"></i>
+                <h2 class="text-sm font-bold text-gray-950">المتاجر المفتوحة حالياً</h2>
+            </div>
+            <div id="stores" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                <div class="col-span-full py-12 text-center text-gray-400">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
+                    <p class="text-xs">جاري جلب المتاجر المفتوحة...</p>
                 </div>
+            </div>
+        </section>
 
-                <div id="cart" class="space-y-4 max-h-[340px] overflow-y-auto pr-1">
-                    <div class="text-center py-6 text-gray-400">
-                        <p class="text-sm">أضف مواد من القائمة لتأكيد طلبك.</p>
+        <section id="products-section" class="hidden space-y-5">
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 p-5 text-white shadow-md">
+                <div class="relative z-10">
+                    <p class="text-[10px] opacity-90">أنت تتصفح الآن قائمة</p>
+                    <h2 id="selected-store-name" class="text-xl font-black mt-0.5">اسم المتجر</h2>
+                </div>
+            </div>
+
+            <div id="categories-wrapper" class="bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-sm hidden">
+                <div id="categories-container" class="flex gap-2 overflow-x-auto pb-0.5 scrollbar-none"></div>
+            </div>
+
+            <div id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+        </section>
+    </main>
+
+    <div id="floating-cart-btn" class="hidden fixed bottom-6 left-6 z-40 animate-bounce">
+        <button onclick="openCartModal()" class="relative flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-3.5 rounded-full shadow-xl hover:scale-105 active:scale-95 transition font-bold text-sm cursor-pointer">
+            <i class="fa-solid fa-cart-shopping text-base"></i>
+            <span>عرض سلة الطلب</span>
+            <span id="cart-floating-badge" class="bg-white text-orange-600 w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center shadow-sm">0</span>
+        </button>
+    </div>
+
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="cart-modal-container" class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col translate-x-full transition-transform duration-300">
+            
+            <div class="bg-gradient-to-r from-orange-500 to-red-500 p-4 text-white flex justify-between items-center shadow">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <div>
+                        <h2 class="font-black text-sm">سلة الطلبات الخاصة بك</h2>
+                        <p class="text-[10px] opacity-90">يرجى مراجعة وتأكيد طلبك</p>
                     </div>
                 </div>
+                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
 
-                <!-- حساب الأسعار والتكلفة متضمناً خدمة التوصيل -->
-<div class="mt-6 rounded-2xl bg-slate-50 p-5 space-y-4">                    <div class="flex justify-between text-gray-500">
-                        <span>مجموع المواد:</span>
-                        <span><span id="subtotal-price">0</span> د.ع</span>
+            <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                <div id="cart-items-list" class="space-y-2.5">
+                    </div>
+
+                <div class="rounded-xl bg-slate-50 p-4 space-y-3 text-xs border border-slate-100">
+                    <div class="flex justify-between text-gray-500">
+                        <span>مجموع حساب المواد:</span>
+                        <span class="font-bold"><span id="subtotal-price">0</span> د.ع</span>
                     </div>
                     <div class="flex justify-between text-gray-500 items-center">
-                        <span>أجور التوصيل الجغرافي:</span>
-                        <span id="delivery-fee-display" class="font-medium text-gray-700">تحدد بعد كشف الموقع</span>
+                        <span>أجور التوصيل حسب موقعك:</span>
+                        <span id="delivery-fee-display" class="font-bold text-orange-600">اضغط لتحديد الموقع 👇</span>
                     </div>
-                    <div id="distance-info" class="text-[11px] text-indigo-600 font-medium hidden text-left bg-indigo-50/50 p-1.5 rounded-lg">
-                        <!-- مسافة التوصيل تظهر هنا تلقائياً -->
-                    </div>
-                    <div class="flex justify-between items-center text-lg font-bold text-gray-900 pt-2 border-t border-gray-50">
-                        <span>المجموع الكلي:</span>
-                        <span class="text-indigo-600"><span id="total-price">0</span> د.ع</span>
+                    <div id="distance-info" class="text-[10px] text-emerald-600 font-bold hidden text-right bg-emerald-50 p-2 rounded-lg border border-emerald-100"></div>
+                    <div class="flex justify-between items-center text-sm font-black text-gray-900 pt-2.5 border-t border-slate-200">
+                        <span>المجموع النهائي الكلي:</span>
+                        <span class="text-orange-600 text-base"><span id="total-price">0</span> د.ع</span>
                     </div>
                 </div>
 
-                <!-- حقل الملاحظات وتحديد الموقع الجغرافي -->
-                <div class="mt-4 space-y-4">
+                <div class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">ملاحظات إضافية على الطلب:</label>
-                        <input id="order-notes" type="text" placeholder="مثال: بدون بصل، زيادة شطة..." class="w-full border border-gray-200 rounded-lg p-2 text-sm focus:outline-indigo-600">
+                        <label class="block text-[10px] font-bold text-gray-500 mb-1">ملاحظات خاصة ومميزة للطلب:</label>
+                        <input id="order-notes" type="text" placeholder="مثال: بدون بصل، زيادة كاتشب..." class="w-full border border-gray-200 rounded-xl p-2.5 text-xs focus:outline-orange-500 bg-slate-50 font-semibold">
                     </div>
-
-                    <!-- زر تحديد الموقع المطور (تليجرام + متصفح) -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 mb-1">موقع التوصيل الفعلي:</label>
-                        <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-2.5 px-4 rounded-xl text-xs border border-indigo-200 transition-colors cursor-pointer">
-                            <i class="fa-solid fa-location-crosshairs text-sm animate-pulse"></i>
-                            <span id="location-btn-text">تحديد موقعك الحالي بدقة للسيارة</span>
+                        <label class="block text-[10px] font-bold text-gray-500 mb-1">تحديد العنوان الفعلي (موقعك الحالي):</label>
+                        <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full flex items-center justify-center gap-2 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-orange-200 transition shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-location-crosshairs text-xs animate-pulse"></i>
+                            <span id="location-btn-text">اضغط هنا لتحديد موقعك عبر الخريطة والـ GPS</span>
                         </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- زر إرسال الطلب النهائي -->
-                <button onclick="checkout()" class="w-full h-14 mt-6 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-lg transition" hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <span>إرسال الطلب إلى التاجر</span>
+            <div class="p-4 border-t border-slate-100 bg-slate-50">
+                <button onclick="checkout()" class="w-full h-11 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-md transition flex items-center justify-center gap-2 cursor-pointer text-xs">
+                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+                    <span>إرسال وتأكيد الطلب الآن</span>
                 </button>
             </div>
         </div>
-    </main>
-
-    <!-- نافذة تكبير الوسائط المنبثقة (Lightbox / Modal) -->
-    <div id="media-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" onclick="closeMediaModal()">
-        <div class="relative max-w-3xl w-full max-h-[80vh] flex items-center justify-center" onclick="event.stopPropagation()">
-            <button onclick="closeMediaModal()" class="absolute -top-12 left-0 text-white text-3xl hover:text-gray-300 cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div id="modal-content" class="w-full h-full rounded-2xl overflow-hidden flex items-center justify-center bg-zinc-950 shadow-2xl"></div>
-        </div>
     </div>
 
+    <div id="media-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" onclick="closeMediaModal()">
+        <div class="relative max-w-3xl w-full max-h-[80vh] flex items-center justify-center" onclick="event.stopPropagation()">
+            <button onclick="closeMediaModal()" class="absolute -top-10 left-0 text-white text-2xl hover:text-gray-300 cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content" class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-zinc-950 shadow-2xl"></div>
+        </div>
+    </div>
 
     <script>
         // =====================
@@ -312,10 +172,11 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
         let products = [];
         let cart = [];
         let selectedMerchant = null;
-        let selectedMerchantData = null; // للاحتفاظ بإحداثيات المطعم المختار
+        let selectedMerchantData = null; 
         let customerLat = null; 
         let customerLng = null;
-        let currentDeliveryFee = 0; // متجر أجور التوصيل المحسوبة
+        let currentDeliveryFee = 0; 
+        let selectedCategory = "الكل"; 
 
         const tg = window.Telegram?.WebApp;
         if(tg) tg.expand();
@@ -323,13 +184,8 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
         const customerTelegramId = tg?.initDataUnsafe?.user?.id || 5503702576; 
         const customerPhone = "9647847121378"; 
 
-        if(tg?.initDataUnsafe?.user) {
-            document.getElementById('welcome-bar').classList.remove('hidden');
-            document.getElementById('customer-name-display').innerText = tg.initDataUnsafe.user.first_name;
-        }
-
         // =====================
-        // 3. MEDIA UTILITIES (TELEGRAM FILE ID TO URL)
+        // 3. MEDIA UTILITIES
         // =====================
         async function getTelegramImageUrl(fileId) {
             if (!fileId) return null;
@@ -337,120 +193,111 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
                 let response = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
                 let json = await response.json();
                 if(json.ok) {
-                    const filePath = json.result.file_path;
-                    return `https://api.telegram.org/file/bot${botToken}/${filePath}`;
+                    return `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
                 }
-            } catch (e) {
-                console.error("خطأ في الاتصال بتليجرام لجلب الميديا:", e);
-            }
+            } catch (e) { console.error(e); }
             return null; 
         }
 
         // =====================
-        // 4. LOAD STORES (MERCHANTS)
+        // 4. LOAD STORES & FILTERING
         // =====================
         async function loadStores(){
-            let { data, error } = await db
+            let { data } = await db
                 .from('merchants')
                 .select('*')
                 .eq('is_open', true);
 
             stores = data || [];
+            displayStores(stores);
+        }
+
+        async function displayStores(storesList) {
             const storesContainer = document.getElementById('stores');
-            
-            if(stores.length === 0) {
-                storesContainer.innerHTML = `<div class="col-span-full py-6 text-center text-gray-500">لا توجد متاجر مفتوحة حالياً.</div>`;
+            if(storesList.length === 0) {
+                storesContainer.innerHTML = `<div class="col-span-full py-6 text-center text-gray-500 text-xs">لا توجد متاجر مفتوحة حالياً تطابق بحثك.</div>`;
                 return;
             }
 
             storesContainer.innerHTML = ''; 
-
-            for (let s of stores) {
+            for (let s of storesList) {
                 const imageUrl = s.store_image_file_id ? await getTelegramImageUrl(s.store_image_file_id) : null;
-                
                 const imageHtml = imageUrl 
-                    ? `<img src="${imageUrl}"class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${s.store_name}">`
-                    : `<div class="w-full h-28 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl"><i class="fa-solid fa-utensils"></i></div>`;
+                    ? `<img src="${imageUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${s.store_name}">`
+                    : `<div class="w-full h-full text-orange-600 flex items-center justify-center text-2xl bg-orange-50"><i class="fa-solid fa-utensils"></i></div>`;
 
-               storesContainer.innerHTML += `
-<div
-    onclick="openStore('${s.id}','${s.store_name}')"
-    id="store-${s.id}"
-    class="store-card group overflow-hidden rounded-3xl bg-white border border-slate-200 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-orange-400">
+                storesContainer.innerHTML += `
+                <div onclick="openStore('${s.id}','${s.store_name}')" class="group overflow-hidden rounded-2xl bg-white border border-slate-200 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-orange-400">
+                    <div class="relative h-36 bg-slate-100 overflow-hidden">${imageHtml}</div>
+                    <div class="p-3.5 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800 text-xs line-clamp-1">${s.store_name}</h3>
+                        <div class="w-7 h-7 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        }
 
-    <div class="relative">
+        function backToStores() {
+            selectedMerchant = null;
+            selectedMerchantData = null;
+            cart = []; // تصفير السلة عند تغيير المتجر منعاً لتداخل المتاجر
+            renderCart();
 
-        <div class="h-44 bg-slate-100 overflow-hidden">
+            document.getElementById('products-section').classList.add('hidden');
+            document.getElementById('floating-cart-btn').classList.add('hidden');
+            document.getElementById('back-to-stores-btn').classList.add('hidden');
+            
+            document.getElementById('stores-section').classList.remove('hidden');
+            document.getElementById('header-logo').classList.remove('hidden');
+            
+            document.getElementById('app-title').innerText = "منصة نورس";
+            document.getElementById('app-subtitle').innerText = "التوصيل الإلكتروني";
+            document.getElementById('global-search-input').value = '';
+            document.getElementById('global-search-input').placeholder = "ابحث عن متاجر...";
+            
+            displayStores(stores);
+        }
 
-            ${imageHtml}
-
-        </div>
-
-        <div class="absolute top-3 right-3">
-
-            <span class="bg-emerald-500 text-white text-[11px] px-3 py-1 rounded-full shadow">
-
-                مفتوح
-
-            </span>
-
-        </div>
-
-    </div>
-
-    <div class="p-4">
-
-        <h3 class="font-extrabold text-lg text-slate-800 line-clamp-1">
-
-            ${s.store_name}
-
-        </h3>
-
-        <div class="mt-3 flex justify-between items-center">
-
-            <span class="text-xs text-slate-500">
-
-                اضغط لعرض المنتجات
-
-            </span>
-
-            <div
-                class="w-9 h-9 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
-
-                <i class="fa-solid fa-arrow-left"></i>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-`;
+        // =====================
+        // 5. GLOBAL SEARCH ENGINE
+        // =====================
+        function handleGlobalSearch() {
+            const query = document.getElementById('global-search-input').value.trim().toLowerCase();
+            if (selectedMerchant === null) {
+                const filteredStores = stores.filter(s => s.store_name.toLowerCase().includes(query));
+                displayStores(filteredStores);
+            } else {
+                filterProducts(query);
             }
         }
 
         // =====================
-        // 5. LOAD PRODUCTS & MEDIA HANDLING
+        // 6. LOAD PRODUCTS & CATEGORIES
         // =====================
         async function openStore(id, storeName){
             selectedMerchant = id;
-            selectedMerchantData = stores.find(s => s.id === id); // تخزين بيانات المتجر شاملة إحداثياته الحالية
+            selectedMerchantData = stores.find(s => s.id === id); 
+            selectedCategory = "الكل"; 
+            document.getElementById('global-search-input').value = ''; 
+            document.getElementById('global-search-input').placeholder = "ابحث داخل هذا المتجر...";
 
-            document.querySelectorAll('.store-card').forEach(c => c.classList.remove('border-indigo-600', 'bg-indigo-50/30'));
-            const selectedCard = document.getElementById(`store-${id}`);
-            if(selectedCard) selectedCard.classList.add('border-indigo-600', 'bg-indigo-50/30');
-
-            document.getElementById('products-section').classList.remove('hidden');
-            document.getElementById('selected-store-name').innerText = storeName;
+            document.getElementById('stores-section').classList.add('hidden');
+            document.getElementById('header-logo').classList.add('hidden');
             
-            // في حال كان الزبون قد حدد موقعه مسبقاً، نقوم بإعادة حساب التوصيل للمطعم الجديد فوراً
-            if(customerLat && customerLng) {
-                processGeographicalDelivery();
-            }
+            document.getElementById('products-section').classList.remove('hidden');
+            document.getElementById('floating-cart-btn').classList.remove('hidden');
+            document.getElementById('back-to-stores-btn').classList.remove('hidden');
+            
+            document.getElementById('selected-store-name').innerText = storeName;
+            document.getElementById('app-title').innerText = storeName;
+            document.getElementById('app-subtitle').innerText = "متجر مفتوح ونشط";
+            
+            if(customerLat && customerLng) { processGeographicalDelivery(); }
 
             const productsContainer = document.getElementById('products');
-            productsContainer.innerHTML = `<div class="col-span-full text-center py-4 text-gray-400"><i class="fa-solid fa-spinner animate-spin"></i> جاري جلب قائمة المواد والوسائط...</div>`;
+            productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 text-xs"><i class="fa-solid fa-spinner animate-spin"></i> جاري جلب قائمة المواد...</div>`;
 
             let { data } = await db
                 .from('products')
@@ -461,13 +308,58 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
             products = data || [];
 
             if(products.length === 0) {
-                productsContainer.innerHTML = `<div class="col-span-full py-6 text-center text-gray-500">لا توجد مواد متوفرة الآن في هذا المتجر.</div>`;
+                document.getElementById('categories-wrapper').classList.add('hidden');
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500 text-xs">لا توجد مواد متوفرة حالياً في هذا المتجر.</div>`;
+                return;
+            }
+
+            document.getElementById('categories-wrapper').classList.remove('hidden');
+            generateCategoryTabs();
+            displayProducts(products);
+        }
+
+        function generateCategoryTabs() {
+            const container = document.getElementById('categories-container');
+            const categories = ["الكل", ...new Set(products.map(p => p.category).filter(Boolean))];
+            
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const isActive = cat === selectedCategory;
+                const btnClass = isActive 
+                    ? "bg-orange-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition";
+                
+                container.innerHTML += `<button onclick="selectCategory('${cat}')" class="${btnClass}">${cat}</button>`;
+            });
+        }
+
+        function selectCategory(category) {
+            selectedCategory = category;
+            generateCategoryTabs();
+            const query = document.getElementById('global-search-input').value.trim().toLowerCase();
+            filterProducts(query);
+        }
+
+        function filterProducts(searchQuery = '') {
+            const filtered = products.filter(p => {
+                const matchesCategory = (selectedCategory === "الكل" || p.category === selectedCategory);
+                const matchesSearch = (!searchQuery || 
+                                       p.name.toLowerCase().includes(searchQuery) || 
+                                       (p.description && p.description.toLowerCase().includes(searchQuery)));
+                return matchesCategory && matchesSearch;
+            });
+            displayProducts(filtered);
+        }
+
+        async function displayProducts(productsList) {
+            const productsContainer = document.getElementById('products');
+            if(productsList.length === 0) {
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">لم نجد أي مواد تطابق البحث.</div>`;
                 return;
             }
 
             productsContainer.innerHTML = ''; 
-
-            for (let p of products) {
+            for (let p of productsList) {
                 let productMediaHtml = '';
 
                 if (p.media_type === 'video' && p.video_file_id) {
@@ -476,9 +368,9 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
                         productMediaHtml = `
                             <div class="w-full h-full relative cursor-pointer flex items-center justify-center group" onclick="openMediaModal('${videoUrl}', 'video')">
                                 <video src="${videoUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" muted playsinline></video>
-                                <div class="absolute inset-0 bg-black/20 flex items-center justify-center rounded-lg group-hover:bg-black/40 transition-colors">
+                                <div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/40 transition-colors">
                                     <div class="w-8 h-8 bg-white/90 text-gray-900 rounded-full flex items-center justify-center shadow-md pl-0.5">
-                                        <i class="fa-solid fa-play text-xs"></i>
+                                        <i class="fa-solid fa-play text-[10px]"></i>
                                     </div>
                                 </div>
                             </div>`;
@@ -491,70 +383,53 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
                     }
                 }
                 if (!productMediaHtml) {
-                    productMediaHtml = `<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><i class="fa-solid fa-cookie-bite text-xl"></i></div>`;
+                    productMediaHtml = `<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><i class="fa-solid fa-cookie-bite text-lg"></i></div>`;
                 }
 
-              productsContainer.innerHTML += `
-<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-orange-400 hover:shadow-xl transition duration-300">
-
-    <div class="relative h-52 bg-slate-100 overflow-hidden">
-
-        ${productMediaHtml}
-
-        <div class="absolute top-3 left-3">
-
-            <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-emerald-600 shadow">
-
-                ${p.price.toLocaleString()} د.ع
-
-            </span>
-
-        </div>
-
-    </div>
-
-    <div class="p-5">
-
-        <h3 class="text-lg font-extrabold text-slate-800 line-clamp-1">
-
-            ${p.name}
-
-        </h3>
-
-        <p class="text-slate-500 text-sm mt-2 h-10 overflow-hidden">
-
-            ${p.description || ""}
-
-        </p>
-
-        <button
-            onclick="addToCart('${p.id}','${p.name}',${p.price})"
-            class="mt-5 w-full h-12 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold transition">
-
-            <i class="fa-solid fa-plus mr-2"></i>
-
-            إضافة إلى السلة
-
-        </button>
-
-    </div>
-
-</div>
-`;
+                productsContainer.innerHTML += `
+                <div class="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-orange-400 hover:shadow-md transition duration-300">
+                    <div class="relative h-40 bg-slate-100 overflow-hidden">
+                        ${productMediaHtml}
+                        <div class="absolute top-2 left-2">
+                            <span class="bg-white/95 backdrop-blur px-2.5 py-0.5 rounded-lg text-xs font-bold text-emerald-600 shadow-sm">${p.price.toLocaleString()} د.ع</span>
+                        </div>
+                    </div>
+                    <div class="p-3.5">
+                        <h3 class="text-xs font-bold text-slate-800 line-clamp-1">${p.name}</h3>
+                        <p class="text-slate-500 text-[11px] mt-1 h-6 overflow-hidden">${p.description || ""}</p>
+                        <button onclick="addToCart('${p.id}','${p.name}',${p.price})" class="mt-3 w-full h-9 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold transition cursor-pointer">
+                            <i class="fa-solid fa-plus mr-1"></i> إضافة للسلة
+                        </button>
+                    </div>
+                </div>`;
             }
         }
 
         // =====================
-        // 6. MODAL INTERACTION FUNCTIONS
+        // 7. NAWRA MODAL WINDOW SYSTEM (السلة المنبثقة)
         // =====================
+        function openCartModal() {
+            const modal = document.getElementById('cart-modal');
+            const container = document.getElementById('cart-modal-container');
+            modal.classList.remove('pointer-events-none');
+            modal.classList.remove('opacity-0');
+            container.classList.remove('translate-x-full');
+        }
+
+        function closeCartModal() {
+            const modal = document.getElementById('cart-modal');
+            const container = document.getElementById('cart-modal-container');
+            modal.classList.add('opacity-0');
+            modal.classList.add('pointer-events-none');
+            container.classList.add('translate-x-full');
+        }
+
         function openMediaModal(url, type) {
             const modal = document.getElementById('media-modal');
             const content = document.getElementById('modal-content');
-            if (type === 'video') {
-                content.innerHTML = `<video src="${url}" class="max-w-full max-h-[80vh] rounded-xl shadow-md" controls autoplay></video>`;
-            } else {
-                content.innerHTML = `<img src="${url}" class="max-w-full max-h-[80vh] object-contain rounded-xl" alt="معاينة المنتج">`;
-            }
+            content.innerHTML = type === 'video' 
+                ? `<video src="${url}" class="max-w-full max-h-[80vh] rounded-xl" controls autoplay></video>`
+                : `<img src="${url}" class="max-w-full max-h-[80vh] object-contain rounded-xl" alt="معاينة">`;
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
         }
@@ -562,47 +437,33 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
         function closeMediaModal() {
             const modal = document.getElementById('media-modal');
             modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.getElementById('modal-content').innerHTML = ''; 
-            }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
         // =====================
-        // 7. HAVERSINE DISTANCE & DELIVERY CALCULATION (التوصيل الجغرافي)
+        // 8. GEOLOCATION & DISTANCE
         // =====================
-        
-        // دالة حساب البعد المستقيم بالكيلومترات بين نقطتين جغرافيتين
         function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // نصف قطر الكرة الأرضية بالكيلومترات
+            const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c; // المسافة المحسوبة بوحدة الكيلومتر
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); 
         }
 
-        // دالة تحويل الكيلومترات إلى سعر عراقي مباشر
         function getFeeByKilometers(km) {
-            if (km <= 1.5) return 2000;   // قريب جداً (نفس الحي أو مجاور)
-            if (km <= 2) return 3000;   // مسافة متوسطة داخل المدينة
-            if (km <= 7) return 4000;  // مسافة بعيدة (بين النجف والكوفة مثلاً)
-            return 5000;                // أطراف المدينة والمناطق النائية
+            if (km <= 1.5) return 2000;   
+            if (km <= 2) return 3000;   
+            if (km <= 7) return 4000;  
+            return 5000;                
         }
 
         function processGeographicalDelivery() {
-            // إذا لم يتم تحديد متجر أو زبون بعد، نلغي الإجراء مؤقتاً
             if (!customerLat || !customerLng || !selectedMerchantData) return;
-
-            // استخراج إحداثيات المتجر من قاعدة البيانات (حقول lat و lng الافتراضية في جدول merchants)
             const storeLat = selectedMerchantData.lat || selectedMerchantData.latitude;
             const storeLng = selectedMerchantData.lng || selectedMerchantData.longitude;
 
             if (!storeLat || !storeLng) {
-                // خطة بديلة في حال كانت إحداثيات التاجر فارغة بسوبابيس
                 currentDeliveryFee = 3000; 
                 document.getElementById('delivery-fee-display').innerText = "3,000 د.ع (افتراضي)";
                 renderCart();
@@ -611,72 +472,49 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
 
             const distance = calculateHaversineDistance(customerLat, customerLng, storeLat, storeLng);
             currentDeliveryFee = getFeeByKilometers(distance);
-
-            // تحديث العرض في واجهة الحساب الجانبية
             document.getElementById('delivery-fee-display').innerText = `${currentDeliveryFee.toLocaleString()} د.ع`;
             
             const distanceInfo = document.getElementById('distance-info');
             distanceInfo.classList.remove('hidden');
-            distanceInfo.innerHTML = `<i class="fa-solid fa-car-side"></i> المسافة المقدرة للمطعم: <span class="font-bold">${distance.toFixed(2)} كم</span>`;
-            
-            renderCart(); // إعادة بناء السلة لجمع الأرقام الجديدة
+            distanceInfo.innerHTML = `<i class="fa-solid fa-car-side"></i> المسافة الفعلية للمتجر: <span class="font-black">${distance.toFixed(2)} كم</span>`;
+            renderCart(); 
         }
 
-        // =====================
-        // 8. LOCATION SERVICES (GPS)
-        // =====================
         function requestUserLocation() {
-            const btnText = document.getElementById('location-btn-text');
-            btnText.innerText = "جاري الاتصال بالأقمار الاصطناعية...";
-            
-            if (tg && tg.LocationManager && tg.LocationManager.isInited) {
+            document.getElementById('location-btn-text').innerText = "جاري الاتصال بالنظام...";
+            if (tg?.LocationManager?.isInited) {
                 tg.LocationManager.getLocation(function(data) {
-                    if (data && data.latitude && data.longitude) {
-                        customerLat = data.latitude;
-                        customerLng = data.longitude;
+                    if (data?.latitude) {
+                        customerLat = data.latitude; customerLng = data.longitude;
                         updateLocationSuccess();
-                    } else {
-                        fallbackToBrowserGeolocation();
-                    }
+                    } else { fallbackToBrowserGeolocation(); }
                 });
-            } else {
-                fallbackToBrowserGeolocation();
-            }
+            } else { fallbackToBrowserGeolocation(); }
         }
 
         function fallbackToBrowserGeolocation() {
-            const btnText = document.getElementById('location-btn-text');
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        customerLat = position.coords.latitude;
-                        customerLng = position.coords.longitude;
+                        customerLat = position.coords.latitude; customerLng = position.coords.longitude;
                         updateLocationSuccess();
                     },
-                    (error) => {
-                        console.error(error);
-                        btnText.innerText = "فشل الالتقاط التلقائي للموقع";
-                        alert("⚠️ تعذر تحديد موقعك. يرجى تفعيل الـ GPS بالهاتف والسماح بالوصول للموقع لحساب التوصيل.");
+                    () => {
+                        document.getElementById('location-btn-text').innerText = "فشل تحديد الموقع التلقائي";
+                        alert("⚠️ يرجى التأكد من تشغيل الـ GPS بالموبايل والسماح بالوصول للموقع.");
                     }
                 );
-            } else {
-                btnText.innerText = "المتصفح لا يدعم تحديد المواقع الجغرافية";
             }
         }
 
         function updateLocationSuccess() {
-            const btn = document.getElementById('location-btn');
-            const btnText = document.getElementById('location-btn-text');
-            
-            btn.className = "w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-semibold py-2.5 px-4 rounded-xl text-xs border border-emerald-200 transition-colors";
-            btnText.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> تم تثبيت موقعك الجغرافي بنجاح!`;
-            
-            // تفعيل الحساب التلقائي والذكي فوراً بعد التقاط الموقع بنجاح
+            document.getElementById('location-btn').className = "w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-emerald-200 transition shadow-sm";
+            document.getElementById('location-btn-text').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> تم التقاط وتثبيت إحداثيات موقعك!`;
             processGeographicalDelivery();
         }
 
         // =====================
-        // 9. CART SYSTEM MANAGEMENT
+        // 9. CART SYSTEM
         // =====================
         function addToCart(id, name, price){
             let item = cart.find(x => x.product_id === id);
@@ -696,144 +534,80 @@ class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
         }
 
         function renderCart(){
-            const cartContainer = document.getElementById('cart');
-            const subtotalPriceEl = document.getElementById('subtotal-price');
-            const totalPriceEl = document.getElementById('total-price');
-            const cartCountBadge = document.getElementById('cart-count');
-
+            const cartContainer = document.getElementById('cart-items-list');
             const totalItems = cart.reduce((a, b) => a + b.qty, 0);
             const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
-            
-            // الحساب الكلي شامل التوصيل المحدث ديناميكياً
-            const finalTotalPrice = subtotalPrice + currentDeliveryFee;
 
-            subtotalPriceEl.innerText = subtotalPrice.toLocaleString();
-            totalPriceEl.innerText = finalTotalPrice.toLocaleString();
-            
-            if(totalItems > 0) {
-                cartCountBadge.innerText = totalItems;
-                const headerCounter=document.getElementById("cart-count-header");
-if(headerCounter){
-headerCounter.innerText=totalItems;
-}
-                cartCountBadge.classList.remove('hidden');
-            } else {
-                cartCountBadge.classList.add('hidden');
-            }
+            document.getElementById('subtotal-price').innerText = subtotalPrice.toLocaleString();
+            document.getElementById('total-price').innerText = (subtotalPrice + currentDeliveryFee).toLocaleString();
+            document.getElementById("cart-floating-badge").innerText = totalItems;
 
             if(cart.length === 0) {
-                cartContainer.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">السلة فارغة حالياً</div>`;
+                cartContainer.innerHTML = `<div class="text-center py-12 text-gray-400 text-xs">السلة فارغة، أضف بعض المنتجات!</div>`;
                 return;
             }
 
-           `
-<div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-3">
-
-<div>
-
-<div class="font-bold text-slate-800">
-
-${c.name}
-
-</div>
-
-<div class="text-sm text-orange-600 font-bold">
-
-${c.total.toLocaleString()} د.ع
-
-</div>
-
-</div>
-
-<div class="flex items-center gap-2">
-
-<button onclick="changeQty('${c.product_id}',-1)"
-class="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition">
-
-<i class="fa-solid fa-minus text-xs"></i>
-
-</button>
-
-<div class="font-black w-8 text-center">
-
-${c.qty}
-
-</div>
-
-<button onclick="changeQty('${c.product_id}',1)"
-class="w-8 h-8 rounded-full bg-orange-500 text-white hover:scale-110 transition">
-
-<i class="fa-solid fa-plus text-xs"></i>
-
-</button>
-
-</div>
-
-</div>
-`
+            cartContainer.innerHTML = '';
+            cart.forEach(c => {
+                cartContainer.innerHTML += `
+                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+                    <div>
+                        <div class="font-bold text-slate-800 text-xs">${c.name}</div>
+                        <div class="text-[11px] text-orange-600 font-black mt-0.5">${c.total.toLocaleString()} د.ع</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeQty('${c.product_id}',-1)" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
+                            <i class="fa-solid fa-minus text-[9px]"></i>
+                        </button>
+                        <div class="font-black text-xs w-5 text-center">${c.qty}</div>
+                        <button onclick="changeQty('${c.product_id}',1)" class="w-6 h-6 rounded-full bg-orange-500 text-white hover:scale-110 transition flex items-center justify-center">
+                            <i class="fa-solid fa-plus text-[9px]"></i>
+                        </button>
+                    </div>
+                </div>`;
+            });
         }
 
-        function scrollToCart() { document.getElementById('cart-card').scrollIntoView({ behavior: 'smooth' }); }
-
         // =====================
-        // 10. CHECKOUT & SAVE TO DATABASE
+        // 10. CHECKOUT
         // =====================
         async function checkout(){
             if(!selectedMerchant) return alert("⚠️ يرجى اختيار المتجر أولاً!");
-            if(cart.length === 0) return alert("⚠️ لم تقم بإضافة أي منتج للسلة!");
+            if(cart.length === 0) return alert("⚠️ السلة فارغة تماماً!");
             if(!customerLat || !customerLng) {
-                alert("⚠️ يرجى النقر على زر 'تحديد موقعك الحالي بدقة' لحساب مسافة التوصيل وإرسال طلبك!");
-                scrollToCart();
-                return;
+                return alert("⚠️ يرجى تحديد موقع التوصيل الفعلي عبر الـ GPS أولاً لحساب الفاتورة بدقة.");
             }
 
             const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
-            const finalTotalPrice = subtotalPrice + currentDeliveryFee; // الحساب الكلي
-            const userNotes = document.getElementById('order-notes').value || "";
             const generatedOrderNumber = Math.floor(100000 + Math.random() * 900000); 
 
             const newOrder = {
                 merchant_id: selectedMerchant,
                 customer_telegram_id: customerTelegramId,
                 customer_phone: customerPhone,
-                address: `https://www.google.com/maps?q=${customerLat},${customerLng}`,
+                address: `http://maps.google.com/?q=${customerLat},${customerLng}`,
                 customer_lat: customerLat,
                 customer_lng: customerLng,
-                total_amount: finalTotalPrice, // إرسال المبلغ الإجمالي الفعلي
-                delivery_fee: currentDeliveryFee, // إرسال أجور التوصيل المحسوبة بالكيلومتر إلى قاعدة البيانات
+                total_amount: subtotalPrice + currentDeliveryFee, 
+                delivery_fee: currentDeliveryFee, 
                 order_items: JSON.stringify(cart), 
-                notes: userNotes,
+                notes: document.getElementById('order-notes').value || "",
                 status: "pending", 
                 order_number: generatedOrderNumber
             };
 
             try {
-                let { data, error } = await db
-                    .from('orders')
-                    .insert([newOrder]);
-
+                let { error } = await db.from('orders').insert([newOrder]);
                 if (error) throw error;
 
-                alert(`🎉 تم إرسال الطلب بنجاح! رقم طلبك هو: ${generatedOrderNumber}\nأجور التوصيل المعتمدة: ${currentDeliveryFee} د.ع`);
-                
-                cart = [];
-                currentDeliveryFee = 0;
-                document.getElementById('delivery-fee-display').innerText = "تحدد بعد كشف الموقع";
-                document.getElementById('distance-info').classList.add('hidden');
+                alert(`🎉 تم استلام وإرسال طلبك بنجاح! رقم الطلب: ${generatedOrderNumber}`);
+                cart = []; currentDeliveryFee = 0; 
+                closeCartModal();
+                backToStores(); 
                 renderCart();
-                document.getElementById('order-notes').value = "";
-                
-                customerLat = null;
-                customerLng = null;
-                const btn = document.getElementById('location-btn');
-                btn.className = "w-full flex items-center justify-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-2.5 px-4 rounded-xl text-xs border border-indigo-200 transition-colors cursor-pointer";
-                document.getElementById('location-btn-text').innerText = "تحديد موقعك الحالي بدقة للسيارة";
-
                 if(tg) tg.close();
-
             } catch (err) {
-                console.error("خطأ Supabase أثناء محاولة الحفظ:", err);
-                alert("❌ حدث خطأ داخلي في النظام أثناء معالجة وإرسال الطلب.");
+                alert("❌ حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.");
             }
         }
 
