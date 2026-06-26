@@ -22,59 +22,118 @@
     <!-- الهيدر العلوي للموقع -->
    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200">
 
-    <div class="max-w-7xl mx-auto h-16 px-4 flex items-center justify-between">
+<div class="max-w-[1500px] mx-auto">
 
-        <div class="flex items-center gap-3">
+<div class="h-16 px-4 flex items-center justify-between">
 
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
+<div class="flex items-center gap-3">
 
-                <i class="fa-solid fa-store text-white"></i>
+<div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
 
-            </div>
+<i class="fa-solid fa-store text-white text-lg"></i>
 
-            <div>
+</div>
 
-                <h1 class="font-black text-lg">
+<div>
 
-                    منصة نورس
+<h1 class="font-black text-lg leading-none">
 
-                </h1>
+منصة نورس
 
-                <p class="text-xs text-slate-500">
+</h1>
 
-                    الطلبات الإلكترونية
+<p class="text-xs text-slate-500 mt-1">
 
-                </p>
+التوصيل الإلكتروني
 
-            </div>
+</p>
 
-        </div>
+</div>
 
-        <button onclick="scrollToCart()"
-            class="relative w-11 h-11 rounded-xl bg-orange-500 hover:bg-orange-600 transition text-white">
+</div>
 
-            <i class="fa-solid fa-cart-shopping"></i>
+<div class="flex items-center gap-2">
 
-            <span id="cart-count"
-                class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] hidden flex items-center justify-center">
+<button
+class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 transition">
 
-                0
+<i class="fa-solid fa-rotate-right"></i>
 
-            </span>
+</button>
 
-        </button>
+<button
+onclick="scrollToCart()"
+class="relative w-11 h-11 rounded-xl bg-orange-500 text-white hover:bg-orange-600 transition">
 
-    </div>
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span
+id="cart-count"
+class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] hidden flex items-center justify-center">
+
+0
+
+</span>
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </header>
 
+
+
     <!-- شريط ترحيب العميل المستند إلى تليجرام -->
-    <div id="welcome-bar" class="bg-indigo-50 text-indigo-800 px-4 py-2 text-sm text-center font-medium hidden">
-        👋 مرحباً بك <span id="customer-name-display" class="font-bold"></span> | يمكنك طلب توصيل المواد إلى موقعك المباشر
-    </div>
+   <div
+id="welcome-bar"
+class="hidden bg-gradient-to-r from-orange-500 to-red-500 text-white">
+
+<div class="max-w-[1500px] mx-auto px-5 py-4 flex items-center justify-between">
+
+<div>
+
+<div class="text-sm">
+
+مرحباً بك 👋
+
+</div>
+
+<div
+id="customer-name-display"
+class="font-black text-lg">
+
+</div>
+
+</div>
+
+<div
+class="hidden md:flex items-center gap-3">
+
+<div
+class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+
+<i class="fa-solid fa-location-dot"></i>
+
+</div>
+
+<div class="text-sm">
+
+يمكنك الطلب إلى موقعك الحالي
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
     <!-- المحتوى الرئيسي للتطبيق -->
-<main class="max-w-7xl        
+<main class="max-w-[1500px]       
         <div class="lg:col-span-2 space-y-8">
             <!-- قسم اختيار المتجر المفتوح -->
             <section>
@@ -90,19 +149,44 @@
             </section>
 
             <!-- قسم عرض المنتجات الخاص بالمتجر المختار -->
-            <section id="products-section" class="hidden">
-                <div class="flex items-center justify-between mb-4 border-t border-gray-100 pt-6">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-boxes-stacked text-indigo-600 text-lg"></i>
-                        <h2 class="text-lg font-bold text-gray-950">قائمة المواد والمنتجات</h2>
-                    </div>
-                    <span id="selected-store-name" class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-medium"></span>
-                </div>
+<section id="products-section" class="hidden space-y-6">      
+             <div
+class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 p-8 text-white">
+
+<div class="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-white/10"></div>
+
+<div class="absolute right-0 bottom-0 w-52 h-52 rounded-full bg-white/5"></div>
+
+<div class="relative z-10">
+
+<p class="text-sm opacity-90">
+
+أنت تتصفح الآن
+
+</p>
+
+<h2
+id="selected-store-name"
+class="text-3xl font-black mt-2">
+
+اسم المتجر
+
+</h2>
+
+<p class="text-sm mt-3 opacity-90">
+
+اختر منتجاتك ثم أرسل الطلب مباشرة إلى التاجر
+
+</p>
+
+</div>
+
+</div>
 <div id="products" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>            </section>
         </div>
 
         <!-- السلة الجانبية ومراجعة الحساب -->
-        <div class="lg:col-span-1">
+        <div class="lg:col-span-4">
 <div id="cart-card"
 class="sticky top-24 overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-xl">                <div class="bg-gradient-to-r from-orange-500 to-red-500 p-5 text-white">
 
