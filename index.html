@@ -18,23 +18,55 @@
         body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased min-h-screen pb-24">
-
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-24">
     <!-- الهيدر العلوي للموقع -->
-    <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-xs">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md shadow-indigo-100">
-                    <i class="fa-solid fa-layer-group"></i>
-                </div>
-                <h1 class="text-xl font-bold tracking-tight text-gray-900">منصة نورس الرقمية</h1>
+   <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200">
+
+    <div class="max-w-7xl mx-auto h-16 px-4 flex items-center justify-between">
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
+
+                <i class="fa-solid fa-store text-white"></i>
+
             </div>
-            <button onclick="scrollToCart()" class="relative p-2 text-gray-600 hover:text-indigo-600 transition-colors">
-                <i class="fa-solid fa-cart-shopping text-2xl"></i>
-                <span id="cart-count" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
-            </button>
+
+            <div>
+
+                <h1 class="font-black text-lg">
+
+                    منصة نورس
+
+                </h1>
+
+                <p class="text-xs text-slate-500">
+
+                    الطلبات الإلكترونية
+
+                </p>
+
+            </div>
+
         </div>
-    </header>
+
+        <button onclick="scrollToCart()"
+            class="relative w-11 h-11 rounded-xl bg-orange-500 hover:bg-orange-600 transition text-white">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            <span id="cart-count"
+                class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] hidden flex items-center justify-center">
+
+                0
+
+            </span>
+
+        </button>
+
+    </div>
+
+</header>
 
     <!-- شريط ترحيب العميل المستند إلى تليجرام -->
     <div id="welcome-bar" class="bg-indigo-50 text-indigo-800 px-4 py-2 text-sm text-center font-medium hidden">
@@ -42,8 +74,7 @@
     </div>
 
     <!-- المحتوى الرئيسي للتطبيق -->
-    <main class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+<main class="max-w-7xl        
         <div class="lg:col-span-2 space-y-8">
             <!-- قسم اختيار المتجر المفتوح -->
             <section>
@@ -51,8 +82,7 @@
                     <i class="fa-solid fa-store text-indigo-600 text-lg"></i>
                     <h2 class="text-lg font-bold text-gray-950">اختر المتجر لتصفح القائمة</h2>
                 </div>
-                <div id="stores" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    <div class="col-span-full py-8 text-center text-gray-400">
+<div id="stores" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">                    <div class="col-span-full py-6 text-center text-gray-400">
                         <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
                         <p>جاري جلب المتاجر المفتوحة حالياً...</p>
                     </div>
@@ -68,27 +98,66 @@
                     </div>
                     <span id="selected-store-name" class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-medium"></span>
                 </div>
-                <div id="products" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-            </section>
+<div id="products" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>            </section>
         </div>
 
         <!-- السلة الجانبية ومراجعة الحساب -->
         <div class="lg:col-span-1">
-            <div id="cart-card" class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm sticky top-24">
-                <div class="flex items-center gap-2 mb-4 pb-4 border-b border-gray-50">
+<div id="cart-card"
+class="sticky top-24 overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-xl">                <div class="bg-gradient-to-r from-orange-500 to-red-500 p-5 text-white">
+
+<div class="flex justify-between items-center">
+
+<div class="flex items-center gap-3">
+
+<div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+</div>
+
+<div>
+
+<h2 class="font-black text-lg">
+
+سلة الطلب
+
+</h2>
+
+<p class="text-xs opacity-90">
+
+راجع منتجاتك قبل الإرسال
+
+</p>
+
+</div>
+
+</div>
+
+<span id="cart-count-header"
+class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold">
+
+0
+
+</span>
+
+</div>
+
+</div>
+
+<div class="p-6">
                     <i class="fa-solid fa-basket-shopping text-indigo-600 text-lg"></i>
                     <h2 class="text-lg font-bold text-gray-950">سلة المشتريات الحالية</h2>
                 </div>
 
-                <div id="cart" class="space-y-4 max-h-[200px] overflow-y-auto pr-1">
-                    <div class="text-center py-8 text-gray-400">
+                <div id="cart" class="space-y-4 max-h-[340px] overflow-y-auto pr-1">
+                    <div class="text-center py-6 text-gray-400">
                         <p class="text-sm">أضف مواد من القائمة لتأكيد طلبك.</p>
                     </div>
                 </div>
 
                 <!-- حساب الأسعار والتكلفة متضمناً خدمة التوصيل -->
-                <div class="border-t border-gray-100 mt-6 pt-4 space-y-2.5 text-sm">
-                    <div class="flex justify-between text-gray-500">
+<div class="mt-6 rounded-2xl bg-slate-50 p-5 space-y-4">                    <div class="flex justify-between text-gray-500">
                         <span>مجموع المواد:</span>
                         <span><span id="subtotal-price">0</span> د.ع</span>
                     </div>
@@ -123,7 +192,7 @@
                 </div>
 
                 <!-- زر إرسال الطلب النهائي -->
-                <button onclick="checkout()" class="w-full mt-5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
+                <button onclick="checkout()" class="w-full h-14 mt-6 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-lg transition" hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <span>إرسال الطلب إلى التاجر</span>
                 </button>
@@ -216,17 +285,64 @@
                 const imageUrl = s.store_image_file_id ? await getTelegramImageUrl(s.store_image_file_id) : null;
                 
                 const imageHtml = imageUrl 
-                    ? `<img src="${imageUrl}" class="w-full h-28 object-cover rounded-xl shadow-xs" alt="${s.store_name}">`
+                    ? `<img src="${imageUrl}"class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${s.store_name}">`
                     : `<div class="w-full h-28 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl"><i class="fa-solid fa-utensils"></i></div>`;
 
-                storesContainer.innerHTML += `
-                    <div onclick="openStore('${s.id}', '${s.store_name}')" id="store-${s.id}" class="store-card bg-white p-3 border border-gray-100 rounded-2xl text-center cursor-pointer hover:border-indigo-500 hover:shadow-xs transition-all flex flex-col items-center gap-2">
-                        <div class="w-full overflow-hidden rounded-xl bg-gray-50">
-                            ${imageHtml}
-                        </div>
-                        <span class="font-bold text-gray-800 text-xs sm:text-sm mt-1 line-clamp-1">${s.store_name}</span>
-                    </div>
-                `;
+               storesContainer.innerHTML += `
+<div
+    onclick="openStore('${s.id}','${s.store_name}')"
+    id="store-${s.id}"
+    class="store-card group overflow-hidden rounded-3xl bg-white border border-slate-200 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-orange-400">
+
+    <div class="relative">
+
+        <div class="h-44 bg-slate-100 overflow-hidden">
+
+            ${imageHtml}
+
+        </div>
+
+        <div class="absolute top-3 right-3">
+
+            <span class="bg-emerald-500 text-white text-[11px] px-3 py-1 rounded-full shadow">
+
+                مفتوح
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="p-4">
+
+        <h3 class="font-extrabold text-lg text-slate-800 line-clamp-1">
+
+            ${s.store_name}
+
+        </h3>
+
+        <div class="mt-3 flex justify-between items-center">
+
+            <span class="text-xs text-slate-500">
+
+                اضغط لعرض المنتجات
+
+            </span>
+
+            <div
+                class="w-9 h-9 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+`;
             }
         }
 
@@ -275,7 +391,7 @@
                     if (videoUrl) {
                         productMediaHtml = `
                             <div class="w-full h-full relative cursor-pointer flex items-center justify-center group" onclick="openMediaModal('${videoUrl}', 'video')">
-                                <video src="${videoUrl}" class="w-full h-full object-cover rounded-lg" muted playsinline></video>
+                                <video src="${videoUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" muted playsinline></video>
                                 <div class="absolute inset-0 bg-black/20 flex items-center justify-center rounded-lg group-hover:bg-black/40 transition-colors">
                                     <div class="w-8 h-8 bg-white/90 text-gray-900 rounded-full flex items-center justify-center shadow-md pl-0.5">
                                         <i class="fa-solid fa-play text-xs"></i>
@@ -287,30 +403,60 @@
                 if (!productMediaHtml && p.image_file_id) {
                     const imageUrl = await getTelegramImageUrl(p.image_file_id);
                     if (imageUrl) {
-                        productMediaHtml = `<img src="${imageUrl}" class="w-full h-full object-cover rounded-lg cursor-pointer" alt="${p.name}" onclick="openMediaModal('${imageUrl}', 'image')">`;
+                        productMediaHtml = `<img src="${imageUrl}" class="w-full h-full object-cover cursor-pointer transition duration-500 group-hover:scale-110" alt="${p.name}" onclick="openMediaModal('${imageUrl}', 'image')">`;
                     }
                 }
                 if (!productMediaHtml) {
                     productMediaHtml = `<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><i class="fa-solid fa-cookie-bite text-xl"></i></div>`;
                 }
 
-                productsContainer.innerHTML += `
-                    <div class="bg-white border border-gray-100 rounded-xl p-4 flex flex-col justify-between shadow-xs">
-                        <div class="flex gap-4 items-start">
-                            <div class="w-16 h-16 bg-gray-50 border border-gray-100 rounded-lg flex items-center justify-center shrink-0 overflow-hidden relative">
-                                ${productMediaHtml}
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">${p.name}</h4>
-                                <p class="text-gray-400 text-[11px] mb-1 line-clamp-1">${p.description || ''}</p>
-                                <span class="text-xs font-bold text-emerald-600">${p.price.toLocaleString()} د.ع</span>
-                            </div>
-                        </div>
-                        <button onclick="addToCart('${p.id}','${p.name}',${p.price})" class="w-full mt-3 bg-gray-950 hover:bg-indigo-600 text-white text-xs font-semibold py-2 px-3 rounded-lg transition-colors cursor-pointer">
-                            + إضافة للطلب
-                        </button>
-                    </div>
-                `;
+              productsContainer.innerHTML += `
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-orange-400 hover:shadow-xl transition duration-300">
+
+    <div class="relative h-52 bg-slate-100 overflow-hidden">
+
+        ${productMediaHtml}
+
+        <div class="absolute top-3 left-3">
+
+            <span class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-bold text-emerald-600 shadow">
+
+                ${p.price.toLocaleString()} د.ع
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="p-5">
+
+        <h3 class="text-lg font-extrabold text-slate-800 line-clamp-1">
+
+            ${p.name}
+
+        </h3>
+
+        <p class="text-slate-500 text-sm mt-2 h-10 overflow-hidden">
+
+            ${p.description || ""}
+
+        </p>
+
+        <button
+            onclick="addToCart('${p.id}','${p.name}',${p.price})"
+            class="mt-5 w-full h-12 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-bold transition">
+
+            <i class="fa-solid fa-plus mr-2"></i>
+
+            إضافة إلى السلة
+
+        </button>
+
+    </div>
+
+</div>
+`;
             }
         }
 
@@ -482,6 +628,10 @@
             
             if(totalItems > 0) {
                 cartCountBadge.innerText = totalItems;
+                const headerCounter=document.getElementById("cart-count-header");
+if(headerCounter){
+headerCounter.innerText=totalItems;
+}
                 cartCountBadge.classList.remove('hidden');
             } else {
                 cartCountBadge.classList.add('hidden');
@@ -492,19 +642,51 @@
                 return;
             }
 
-            cartContainer.innerHTML = cart.map(c => `
-                <div class="flex justify-between items-center bg-gray-50/50 p-2.5 rounded-xl border border-gray-100 text-xs">
-                    <div>
-                        <h5 class="font-bold text-gray-900">${c.name}</h5>
-                        <p class="text-gray-500">${c.total.toLocaleString()} د.ع</p>
-                    </div>
-                    <div class="flex items-center gap-2 border border-gray-200 bg-white rounded-lg p-1">
-                        <button onclick="changeQty('${c.product_id}', 1)" class="w-5 h-5 flex items-center justify-center text-gray-600"><i class="fa-solid fa-plus text-[10px]"></i></button>
-                        <span class="font-bold text-gray-800">${c.qty}</span>
-                        <button onclick="changeQty('${c.product_id}', -1)" class="w-5 h-5 flex items-center justify-center text-gray-600"><i class="fa-solid fa-minus text-[10px]"></i></button>
-                    </div>
-                </div>
-            `).join('');
+           `
+<div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-3">
+
+<div>
+
+<div class="font-bold text-slate-800">
+
+${c.name}
+
+</div>
+
+<div class="text-sm text-orange-600 font-bold">
+
+${c.total.toLocaleString()} د.ع
+
+</div>
+
+</div>
+
+<div class="flex items-center gap-2">
+
+<button onclick="changeQty('${c.product_id}',-1)"
+class="w-8 h-8 rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition">
+
+<i class="fa-solid fa-minus text-xs"></i>
+
+</button>
+
+<div class="font-black w-8 text-center">
+
+${c.qty}
+
+</div>
+
+<button onclick="changeQty('${c.product_id}',1)"
+class="w-8 h-8 rounded-full bg-orange-500 text-white hover:scale-110 transition">
+
+<i class="fa-solid fa-plus text-xs"></i>
+
+</button>
+
+</div>
+
+</div>
+`
         }
 
         function scrollToCart() { document.getElementById('cart-card').scrollIntoView({ behavior: 'smooth' }); }
