@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة نورس الرقمية - واجهة فاخرة بالفيديو</title>
+    <title>منصة نورس الرقمية - تعديل المتاجر فقط</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -12,146 +12,135 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; background-color: #f6f9fc; }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;800;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-        .premium-shadow { box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05); }
+        .store-card-shadow { box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.06); }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen pb-32">
+<body class="text-slate-800 antialiased min-h-screen pb-36">
 
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-xs">
-        <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between gap-4">
-            
-            <div class="flex items-center gap-2.5">
-                <button id="back-to-stores-btn" onclick="backToStores()" class="hidden w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 active:scale-95 transition-transform">
-                    <i class="fa-solid fa-chevron-right text-xs"></i>
+    <header class="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-xs">
+        <div class="max-w-md mx-auto px-5 h-16 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <button id="back-to-stores-btn" onclick="backToStores()" class="hidden w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 active:scale-95 transition-all">
+                    <i class="fa-solid fa-arrow-right text-sm"></i>
                 </button>
-                <div id="header-logo" class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-md shadow-orange-500/20">
-                    <i class="fa-solid fa-store text-white text-xs"></i>
+                <div id="header-logo" class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center shadow-md shadow-orange-500/20">
+                    <i class="fa-solid fa-paper-plane text-white text-sm"></i>
                 </div>
                 <div>
-                    <h1 id="app-title" class="font-black text-xs leading-none text-slate-900">منصة نورس</h1>
-                    <p id="app-subtitle" class="text-[9px] text-slate-400 mt-0.5 font-bold">التوصيل المزدوج المقيد</p>
+                    <h1 id="app-title" class="font-black text-sm text-slate-900 leading-none">تطبيق نورس</h1>
+                    <p id="app-subtitle" class="text-[10px] text-slate-400 mt-1 font-bold">توصيل مشترك ذكي</p>
                 </div>
             </div>
 
-            <div class="relative flex-1 max-w-xs">
-                <span class="absolute inset-y-0 right-3.5 flex items-center text-slate-400">
+            <div class="relative flex-1 max-w-[180px]">
+                <span class="absolute inset-y-0 right-3 flex items-center text-slate-400">
                     <i class="fa-solid fa-magnifying-glass text-xs"></i>
                 </span>
-                <input id="global-search-input" oninput="handleGlobalSearch()" type="text" placeholder="ابحث عن متاجر أو وجبات..." class="w-full h-10 bg-slate-50 border border-slate-100 rounded-xl pr-9 pl-4 text-[11px] font-bold focus:outline-none focus:border-orange-500 focus:bg-white transition-all">
+                <input id="global-search-input" oninput="handleGlobalSearch()" type="text" placeholder="ابحث..." class="w-full h-10 bg-slate-50 border border-slate-100 rounded-xl pr-9 pl-4 text-xs font-bold focus:outline-none focus:border-orange-500 focus:bg-white transition-all">
             </div>
         </div>
     </header>
 
-    <main class="max-w-md mx-auto px-4 py-5">
+    <main class="max-w-md mx-auto px-5 py-6">
         
-        <section id="stores-section" class="space-y-4">
-            <div class="flex items-center justify-between px-0.5">
-                <h2 class="text-xs font-black text-slate-900 tracking-wide flex items-center gap-1">
-                    <i class="fa-solid fa-fire text-orange-500 text-xs"></i> المتاجر النشطة حالياً
+        <section id="stores-section" class="space-y-5">
+            <div class="flex items-center justify-between px-1">
+                <h2 class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-star text-amber-500 text-xs"></i> المتاجر المفتوحة في النجف
                 </h2>
-                <span class="text-[9px] font-black bg-orange-50 text-orange-600 px-2 py-0.5 rounded-lg">متجرين كحد أقصى</span>
+                <span class="text-[10px] font-black bg-orange-50 text-orange-600 px-2.5 py-1 rounded-xl">دمج متجرين 🎯</span>
             </div>
-            <div id="stores" class="space-y-4">
-                <div class="text-center py-12 text-slate-400">
-                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2 text-orange-500"></i>
-                    <p class="text-xs font-bold">جاري جلب المتاجر المفتوحة في النجف...</p>
+            
+            <div id="stores" class="space-y-5">
+                <div class="text-center py-20 text-slate-400">
+                    <i class="fa-solid fa-circle-notch animate-spin text-3xl mb-3 text-orange-500"></i>
+                    <p class="text-xs font-bold">جاري تحديث المتاجر...</p>
                 </div>
             </div>
         </section>
 
         <section id="products-section" class="hidden space-y-4">
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 p-5 text-white premium-shadow">
-                <p class="text-[9px] opacity-70 font-bold uppercase tracking-wider">أنت تتصفح منيو</p>
-                <h2 id="selected-store-name" class="text-base font-black mt-0.5">اسم المتجر</h2>
-                <button onclick="backToStores()" class="absolute left-4 bottom-4 bg-white/10 hover:bg-white/25 px-3 py-1.5 rounded-xl text-[10px] font-black transition backdrop-blur-md">
-                     المتاجر المجاورة <i class="fa-solid fa-plus text-[8px] mr-0.5"></i>
-                </button>
+            <div class="bg-slate-900 p-4 rounded-2xl text-white flex justify-between items-center">
+                <div>
+                    <h2 id="selected-store-name" class="font-black text-sm">اسم المتجر</h2>
+                    <p class="text-[10px] text-slate-400 mt-0.5">توصيل سريع مشترك</p>
+                </div>
+                <button onclick="backToStores()" class="bg-white/10 px-3 py-1.5 rounded-lg text-[11px] font-bold">رجوع</button>
             </div>
 
-            <div id="categories-wrapper" class="bg-white p-2 rounded-2xl border border-slate-100 hidden shadow-xs">
-                <div id="categories-container" class="flex gap-2 overflow-x-auto pb-0.5 no-scrollbar"></div>
+            <div id="categories-wrapper" class="hidden">
+                <div id="categories-container" class="flex gap-2 overflow-x-auto pb-2 scrollbar-none"></div>
             </div>
 
-            <div id="products" class="space-y-3.5"></div>
+            <div id="products" class="grid grid-cols-2 gap-3"></div>
         </section>
     </main>
 
-    <div id="floating-cart-btn" class="hidden fixed bottom-6 inset-x-4 max-w-md mx-auto z-40">
-        <button onclick="openCartModal()" class="w-full flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 h-14 rounded-2xl shadow-xl active:scale-[0.98] transition-transform font-bold text-xs cursor-pointer">
-            <div class="flex items-center gap-2.5">
-                <div class="bg-white text-orange-600 w-6 h-6 rounded-xl font-black flex items-center justify-center text-xs shadow-xs" id="cart-floating-badge">0</div>
-                <span class="font-black">مراجعة حساب السلة المزدوجة</span>
+    <div id="floating-cart-btn" class="hidden fixed bottom-6 inset-x-5 max-w-md mx-auto z-40">
+        <button onclick="openCartModal()" class="w-full flex items-center justify-between bg-orange-500 text-white px-5 h-14 rounded-xl shadow-lg shadow-orange-500/20 font-bold text-xs">
+            <div class="flex items-center gap-2">
+                <div class="bg-white text-orange-600 w-6 h-6 rounded-lg font-black flex items-center justify-center text-xs shadow-xs" id="cart-floating-badge">0</div>
+                <span class="font-black">عرض السلة المشتركة</span>
             </div>
-            <i class="fa-solid fa-cart-shopping text-sm"></i>
+            <i class="fa-solid fa-basket-shopping text-sm"></i>
         </button>
     </div>
 
-    <div id="cart-modal" class="fixed inset-0 bg-black/60 z-50 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs">
-        <div id="cart-modal-container" class="w-full max-w-md mx-auto bg-white rounded-t-[2rem] shadow-2xl flex flex-col max-h-[85vh] translate-y-full transition-transform duration-300">
-            
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="cart-modal-container" class="w-full max-w-md mx-auto bg-white rounded-t-3xl flex flex-col max-h-[80vh] translate-y-full transition-transform duration-300">
             <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto my-3"></div>
-            
             <div class="px-5 pb-3 flex justify-between items-center border-b border-slate-100">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-basket-shopping text-orange-500"></i>
-                    <h2 class="font-black text-xs text-slate-900">سلة المشتريات الذكية</h2>
-                </div>
-                <button onclick="closeCartModal()" class="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark text-xs"></i></button>
+                <h2 class="font-black text-sm text-slate-900">سلتك الحالية</h2>
+                <button onclick="closeCartModal()" class="text-slate-400 text-sm"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+            <div class="flex-1 overflow-y-auto p-5 space-y-4 scrollbar-none">
                 <div id="cart-items-by-store" class="space-y-3"></div>
 
-                <div class="rounded-2xl bg-slate-50 p-4 space-y-3 text-xs border border-slate-100">
+                <div class="rounded-xl bg-slate-50 p-4 space-y-2.5 text-xs">
                     <div class="flex justify-between text-slate-500 font-bold">
-                        <span>مجموع الوجبات والمواد:</span>
+                        <span>مجموع الوجبات:</span>
                         <span class="font-black text-slate-800"><span id="subtotal-price">0</span> د.ع</span>
                     </div>
-                    <div class="flex justify-between text-slate-500 font-bold items-center">
-                        <span>أجور توصيل كابتن نورس:</span>
-                        <span id="delivery-fee-display" class="font-black text-orange-500 bg-orange-50 px-2 py-0.5 rounded-lg">قفل الـ GPS للحساب 📍</span>
+                    <div class="flex justify-between text-slate-500 font-bold">
+                        <span>أجور التوصيل الجغرافي:</span>
+                        <span id="delivery-fee-display" class="font-black text-orange-500">حدد موقعك 📍</span>
                     </div>
-                    <div id="distance-info" class="text-[10px] text-emerald-700 font-bold hidden bg-emerald-50 p-3 rounded-xl border border-emerald-100 space-y-1"></div>
-                    <div class="flex justify-between items-center text-xs font-black text-slate-900 pt-2.5 border-t border-slate-200">
-                        <span>المجموع النهائي الكلي للفاتورة:</span>
-                        <span class="text-orange-600 text-base font-black"><span id="total-price">0</span> د.ع</span>
+                    <div id="distance-info" class="text-[11px] text-slate-600 hidden bg-white p-3 rounded-lg border border-slate-100"></div>
+                    <div class="flex justify-between items-center text-sm font-black text-slate-900 pt-3 border-t border-slate-200">
+                        <span>الإجمالي الكلي:</span>
+                        <span class="text-orange-500"><span id="total-price">0</span> د.ع</span>
                     </div>
                 </div>
 
                 <div class="space-y-3">
-                    <input id="order-notes" type="text" placeholder="أي تعليمات؟ (مثال: حار، التوصيل معاً)..." class="w-full h-11 border border-slate-200 rounded-xl px-3.5 text-xs font-bold bg-slate-50 focus:bg-white focus:outline-none focus:border-orange-500">
-                    <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full h-11 flex items-center justify-center gap-2 bg-slate-950 text-white font-black rounded-xl text-xs active:scale-95 transition-transform cursor-pointer">
-                        <i class="fa-solid fa-location-crosshairs text-orange-500 text-xs animate-pulse"></i>
-                        <span id="location-btn-text">مشاركة موقع التسليم وتثبيت العنوان الفعلي</span>
+                    <input id="order-notes" type="text" placeholder="أي ملاحظات للكابتن..." class="w-full h-11 border border-slate-200 rounded-xl px-4 text-xs font-bold bg-slate-50 focus:bg-white focus:outline-none">
+                    <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full h-11 flex items-center justify-center gap-2 bg-slate-900 text-white font-black rounded-xl text-xs">
+                        <i class="fa-solid fa-location-crosshairs text-orange-500"></i>
+                        <span id="location-btn-text">مشاركة الموقع الحالي وتثبيته</span>
                     </button>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-slate-100 bg-slate-50 rounded-t-xl">
-                <button onclick="checkout()" class="w-full h-11 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-md transition text-xs cursor-pointer">
-                    تأكيد وإرسال الفاتورة المزدوجة
+            <div class="p-4 border-t border-slate-100">
+                <button onclick="checkout()" class="w-full h-11 rounded-xl bg-orange-500 text-white font-black text-xs">
+                    إرسال الطلب فوراً
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="media-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300 shadow-2xl" onclick="closeMediaModal()">
-        <div class="relative max-w-sm w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-slate-800" onclick="event.stopPropagation()">
-            <button onclick="closeMediaModal()" class="absolute top-4 left-4 z-50 w-8 h-8 rounded-full bg-black/40 text-white hover:bg-black/60 flex items-center justify-center cursor-pointer transition">
-                <i class="fa-solid fa-xmark text-xs"></i>
-            </button>
-            <div id="modal-content" class="w-full aspect-square flex items-center justify-center bg-zinc-950"></div>
+    <div id="media-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden" onclick="closeMediaModal()">
+        <div class="max-w-xs w-full bg-black rounded-xl overflow-hidden" onclick="event.stopPropagation()">
+            <div id="modal-content" class="w-full aspect-square flex items-center justify-center"></div>
         </div>
     </div>
 
     <script>
-        // =====================
-        // 1. CONFIGURATION
-        // =====================
         const supabaseUrl = "https://lfpzrppdaoiedwabpqjl.supabase.co";
         const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmcHpycHBkYW9pZWR3YWJwcWpsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDMzODcwOCwiZXhwIjoyMDk1OTE0NzA4fQ.EkgD-Zz4HHABNLOYtNxJr6U2BeolQhIOojEQiiVStaQ";
         const botToken = "8579415183:AAFDcnlUeo7iUABt5vOW7yGF5dny8FiN4bM"; 
@@ -187,19 +176,17 @@
             return null; 
         }
 
-        // =====================
-        // 4. LOAD STORES
-        // =====================
         async function loadStores(){
             let { data } = await db.from('merchants').select('*').eq('is_open', true);
             stores = data || [];
             displayStores(stores);
         }
 
+        // هنا التعديل: المتاجر تظهر بشكل كروت عريضة فخمة مع زوايا دائرية جميلة وصورة واضحة وكبيرة
         async function displayStores(storesList) {
             const container = document.getElementById('stores');
             if(storesList.length === 0) {
-                container.innerHTML = `<div class="text-center py-6 text-gray-500 text-xs">لا تـوجد متاجر مفتوحة حالياً.</div>`;
+                container.innerHTML = `<div class="text-center py-12 text-gray-500 text-xs font-bold">لا تـوجد متاجر مفتوحة حالياً.</div>`;
                 return;
             }
 
@@ -211,15 +198,18 @@
                     : `<div class="w-full h-full text-orange-500 flex items-center justify-center text-2xl bg-orange-50"><i class="fa-solid fa-utensils"></i></div>`;
 
                 container.innerHTML += `
-                <div onclick="openStore('${s.id}','${s.store_name}')" class="group overflow-hidden rounded-2xl bg-white border border-slate-150/60 cursor-pointer transition-all duration-300 hover:border-orange-400 p-2 flex items-center gap-3 shadow-xs">
-                    <div class="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-50 shrink-0">${imageHtml}</div>
-                    <div class="flex-1 min-w-0 flex items-center justify-between">
+                <div onclick="openStore('${s.id}','${s.store_name}')" class="group overflow-hidden rounded-[2rem] bg-white border border-slate-100 cursor-pointer transition-all flex flex-col store-card-shadow">
+                    <div class="relative w-full aspect-[16/9] bg-slate-50 overflow-hidden">
+                        ${imageHtml}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                    <div class="p-5 flex items-center justify-between gap-4">
                         <div>
-                            <h3 class="font-black text-slate-800 text-xs line-clamp-1">${s.store_name}</h3>
-                            <p class="text-[10px] text-slate-400 font-bold mt-0.5">⏱️ 20-35 دقيقة • متجر نشط</p>
+                            <h3 class="font-black text-slate-900 text-sm">${s.store_name}</h3>
+                            <p class="text-xs text-slate-400 font-semibold mt-0.5"><i class="fa-solid fa-motorcycle text-orange-400 mr-0.5"></i> كابتن نورس • توصيل سريع</p>
                         </div>
-                        <div class="w-7 h-7 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
-                            <i class="fa-solid fa-chevron-left text-[9px]"></i>
+                        <div class="w-9 h-9 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all shadow-2xs">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
                         </div>
                     </div>
                 </div>`;
@@ -232,10 +222,10 @@
             document.getElementById('back-to-stores-btn').classList.add('hidden');
             document.getElementById('stores-section').classList.remove('hidden');
             document.getElementById('header-logo').classList.remove('hidden');
-            document.getElementById('app-title').innerText = "منصة نورس";
-            document.getElementById('app-subtitle').innerText = "التوصيل الإلكتروني";
+            document.getElementById('app-title').innerText = "تطبيق نورس";
+            document.getElementById('app-subtitle').innerText = "توصيل مشترك ذكي";
             document.getElementById('global-search-input').value = '';
-            document.getElementById('global-search-input').placeholder = "ابحث عن متاجر أو منتجات...";
+            document.getElementById('global-search-input').placeholder = "ابحث...";
             displayStores(stores);
             updateFloatingCartButtonVisibility();
         }
@@ -250,15 +240,11 @@
             }
         }
 
-        // =====================
-        // 5. LOAD PRODUCTS & MEDIA
-        // =====================
         async function openStore(id, storeName){
             selectedMerchant = id;
             selectedMerchantData = stores.find(s => s.id === id); 
             selectedCategory = "الكل"; 
             document.getElementById('global-search-input').value = ''; 
-            document.getElementById('global-search-input').placeholder = "ابحث في قائمة وجبات هذا المتجر...";
 
             document.getElementById('stores-section').classList.add('hidden');
             document.getElementById('header-logo').classList.add('hidden');
@@ -267,19 +253,19 @@
             
             document.getElementById('selected-store-name').innerText = storeName;
             document.getElementById('app-title').innerText = storeName;
-            document.getElementById('app-subtitle').innerText = "قائمة المواد الطازجة";
+            document.getElementById('app-subtitle').innerText = "قائمة المواد";
             
             updateFloatingCartButtonVisibility();
 
             const productsContainer = document.getElementById('products');
-            productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 text-xs"><i class="fa-solid fa-spinner animate-spin text-orange-500"></i> جاري تنسيق الميديا والمنيو...</div>`;
+            productsContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400 text-xs font-bold"><i class="fa-solid fa-circle-notch animate-spin text-orange-500 mb-2"></i> جاري تحميل القائمة...</div>`;
 
             let { data } = await db.from('products').select('*').eq('merchant_id', id).eq('is_available', true);
             products = data || [];
 
             if(products.length === 0) {
                 document.getElementById('categories-wrapper').classList.add('hidden');
-                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500 text-xs">لا توجد مواد متوفرة حالياً.</div>`;
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs font-bold">لا توجد مواد متوفرة حالياً.</div>`;
                 return;
             }
 
@@ -295,8 +281,8 @@
             categories.forEach(cat => {
                 const isActive = cat === selectedCategory;
                 const btnClass = isActive 
-                    ? "bg-orange-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap shadow-sm"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap";
+                    ? "bg-orange-500 text-white font-black px-3.5 py-1.5 rounded-lg text-xs whitespace-nowrap"
+                    : "bg-slate-100 text-slate-600 font-bold px-3.5 py-1.5 rounded-lg text-xs whitespace-nowrap";
                 container.innerHTML += `<button onclick="selectCategory('${cat}')" class="${btnClass}">${cat}</button>`;
             });
         }
@@ -316,74 +302,54 @@
             displayProducts(filtered);
         }
 
-        // تم إصلاح دالة البناء لإرسال روابط الميديا بشكل نصي ناصع ومعزول للمودال يمنع كسر الكود
+        // تم إرجاع عرض المنتجات القديم كما كان (كروت صغيرة بجانب بعضها)
         async function displayProducts(productsList) {
             const productsContainer = document.getElementById('products');
             if(productsList.length === 0) {
-                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">لا توجد مواد مطابقة للفرز.</div>`;
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs font-bold">لا توجد مواد مطابقة.</div>`;
                 return;
             }
 
             productsContainer.innerHTML = ''; 
             for (let p of productsList) {
-                let mediaElementHtml = '';
-
-                if (p.media_type === 'video' && p.video_file_id) {
-                    const videoUrl = await getTelegramImageUrl(p.video_file_id);
-                    if (videoUrl) {
-                        // تم إصلاح حدث onclick وإضافة دالة تمرير آمنة تمنع كسر الجافا سكريبت بسبب الروابط
-                        mediaElementHtml = `
-                            <div class="w-20 h-20 relative rounded-xl overflow-hidden bg-slate-950 cursor-pointer shadow-xs shrink-0" onclick="triggerMediaPlay('${videoUrl}', 'video')">
-                                <video src="${videoUrl}" class="w-full h-full object-cover" muted playsinline autoplay loop></video>
-                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                    <div class="w-6 h-6 bg-white/90 text-slate-900 rounded-full flex items-center justify-center shadow shadow-md pl-0.5 animate-pulse">
-                                        <i class="fa-solid fa-play text-[8px]"></i>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }
-                } 
-                if (!mediaElementHtml && p.image_file_id) {
+                let imgHtml = '';
+                if (p.image_file_id) {
                     const imageUrl = await getTelegramImageUrl(p.image_file_id);
                     if (imageUrl) {
-                        mediaElementHtml = `<img src="${imageUrl}" class="w-20 h-20 object-cover rounded-xl cursor-pointer shrink-0 shadow-xs" alt="${p.name}" onclick="triggerMediaPlay('${imageUrl}', 'image')">`;
+                        imgHtml = `<img src="${imageUrl}" class="w-full h-24 object-cover rounded-xl cursor-pointer" onclick="openMediaModal('${imageUrl}')">`;
                     }
                 }
-                if (!mediaElementHtml) {
-                    mediaElementHtml = `<div class="w-20 h-20 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center text-base shrink-0"><i class="fa-solid fa-cookie-bite"></i></div>`;
+                if (!imgHtml && p.video_file_id) {
+                    const videoUrl = await getTelegramImageUrl(p.video_file_id);
+                    if (videoUrl) {
+                        imgHtml = `<div class="w-full h-24 bg-slate-950 rounded-xl flex items-center justify-center text-white cursor-pointer" onclick="openVideoModal('${videoUrl}')"><i class="fa-solid fa-play"></i></div>`;
+                    }
+                }
+                if (!imgHtml) {
+                    imgHtml = `<div class="w-full h-24 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300 text-xl"><i class="fa-solid fa-bowl-food"></i></div>`;
                 }
 
                 productsContainer.innerHTML += `
-                <div class="bg-white rounded-2xl border border-slate-150 p-3 flex items-center justify-between gap-3 shadow-xs">
-                    <div class="flex items-center gap-3 flex-1 min-w-0">
-                        ${mediaElementHtml}
-                        <div class="min-w-0">
-                            <h4 class="font-black text-xs text-slate-900 line-clamp-1">${p.name}</h4>
-                            <p class="text-[11px] text-orange-600 font-black mt-1">${p.price.toLocaleString()} د.ع</p>
-                        </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-2.5 flex flex-col justify-between">
+                    <div>
+                        ${imgHtml}
+                        <h4 class="font-bold text-xs text-slate-900 mt-2 line-clamp-1">${p.name}</h4>
+                        <p class="text-[11px] text-orange-500 font-black mt-0.5">${p.price.toLocaleString()} د.ع</p>
                     </div>
-                    <button onclick="addToCart('${p.id}','${p.name}',${p.price}, '${p.merchant_id}')" class="h-9 w-9 rounded-xl bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90 shrink-0">
-                        <i class="fa-solid fa-plus text-xs"></i>
+                    <button onclick="addToCart('${p.id}','${p.name}',${p.price}, '${p.merchant_id}')" class="w-full h-8 mt-2.5 rounded-lg bg-orange-500 text-white text-[11px] font-black flex items-center justify-center gap-1 active:scale-95 transition-all">
+                        إضافة <i class="fa-solid fa-plus text-[9px]"></i>
                     </button>
                 </div>`;
             }
         }
 
-        // دالة تفعيل الميديا المصلحة والآمنة 100%
-        function triggerMediaPlay(url, type) {
-            openMediaModal(url, type);
-        }
-
-        // =====================
-        // 6. MULTI-STORE CART SYSTEM (المقيد)
-        // =====================
         function addToCart(id, name, price, merchantId){
             let storeData = stores.find(s => s.id === merchantId);
             let storeName = storeData ? storeData.store_name : "متجر مجهول";
             const currentUniqueStores = [...new Set(cart.map(item => item.merchant_id))];
 
             if (currentUniqueStores.length >= 2 && !currentUniqueStores.includes(merchantId)) {
-                alert("⚠️ عذراً، يمكنك الطلب من متجرين كحد أقصى في الفاتورة المشتركة لضمان الجودة وسرعة التوصيل.");
+                alert("⚠️ عذراً، يمكنك الطلب من متجرين كحد أقصى في الفاتورة المشتركة.");
                 return;
             }
 
@@ -398,7 +364,7 @@
                     if (lat1 && lon1 && lat2 && lon2) {
                         let distanceBetweenStores = calculateHaversineDistance(lat1, lon1, lat2, lon2);
                         if (distanceBetweenStores > 1.0) {
-                            alert(`⚠️ تعذر الدمج المشترك!\nالمسافة الجغرافية بين "${firstStore.store_name}" و "${secondStore.store_name}" تبلغ (${distanceBetweenStores.toFixed(2)} كم).\nيجب اختيار متاجر قريبة (أقل من 1 كم الفاصل بينهما) لتأمين الدليفري الذكي التنافسي.`);
+                            alert(`⚠️ تعذر الدمج بسبب بعد المتاجر عن بعضها البعض لحفظ الجودة.`);
                             return;
                         }
                     }
@@ -441,7 +407,7 @@
             document.getElementById("cart-floating-badge").innerText = totalItems;
 
             if(cart.length === 0) {
-                cartContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-xs font-semibold">السلة فارغة، أضف مواد من المنيو!</div>`;
+                cartContainer.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs font-bold">السلة فارغة.</div>`;
                 return;
             }
 
@@ -457,24 +423,21 @@
             for(let mId in groupedCart) {
                 let storeGroup = groupedCart[mId];
                 let blockHtml = `
-                <div class="border border-slate-200 rounded-2xl bg-slate-50 p-3 space-y-2">
-                    <div class="flex items-center gap-1.5 text-xs font-bold text-gray-900 border-b border-slate-200/50 pb-1.5">
-                        <i class="fa-solid fa-shop text-orange-500"></i>
-                        <span>من متجر: ${storeGroup.storeName}</span>
-                    </div>
+                <div class="border border-slate-100 rounded-xl bg-slate-50 p-3 space-y-2">
+                    <div class="text-xs font-black text-slate-800 pb-1 border-b border-slate-200/40">🛒 من: ${storeGroup.storeName}</div>
                     <div class="space-y-2">`;
 
                 storeGroup.items.forEach(c => {
                     blockHtml += `
-                    <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-150 shadow-2xs">
-                        <div class="min-w-0 flex-1 pl-1">
-                            <div class="font-bold text-slate-800 text-xs line-clamp-1">${c.name}</div>
-                            <div class="text-[10px] text-orange-600 font-black mt-0.5">${c.total.toLocaleString()} د.ع</div>
+                    <div class="flex items-center justify-between bg-white p-2 rounded-lg border border-slate-100">
+                        <div class="min-w-0 flex-1 pl-2">
+                            <div class="font-bold text-slate-800 text-xs truncate">${c.name}</div>
+                            <div class="text-[11px] text-orange-500 font-black mt-0.5">${c.total.toLocaleString()} د.ع</div>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
-                            <button onclick="changeQty('${c.product_id}',-1)" class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                            <button onclick="changeQty('${c.product_id}',-1)" class="w-5 h-5 rounded bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-minus text-[8px]"></i></button>
                             <div class="font-black text-xs w-4 text-center">${c.qty}</div>
-                            <button onclick="changeQty('${c.product_id}',1)" class="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                            <button onclick="changeQty('${c.product_id}',1)" class="w-5 h-5 rounded bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
                         </div>
                     </div>`;
                 });
@@ -484,52 +447,41 @@
             }
         }
 
-        // =====================
-        // 7. MODALS WINDOWS & LIGHTBOX
-        // =====================
         function openCartModal() {
             renderCart();
             if(customerLat && customerLng) { processGeographicalDelivery(); }
             const modal = document.getElementById('cart-modal');
             const container = document.getElementById('cart-modal-container');
             modal.classList.remove('pointer-events-none', 'opacity-0');
-            container.classList.remove('translate-x-full');
+            container.classList.remove('translate-y-full');
         }
 
         function closeCartModal() {
             const modal = document.getElementById('cart-modal');
             const container = document.getElementById('cart-modal-container');
             modal.classList.add('opacity-0', 'pointer-events-none');
-            container.classList.add('translate-x-full');
+            container.classList.add('translate-y-full');
         }
 
-        function openMediaModal(url, type) {
+        function openMediaModal(url) {
             const modal = document.getElementById('media-modal');
             const content = document.getElementById('modal-content');
-            
-            // إصلاح شامل للمشغل ليعمل بصوت كامل وعالي وتأكيد التجاوبية للـ Lightbox
-            if (type === 'video') {
-                content.innerHTML = `<video src="${url}" class="w-full h-full object-contain rounded-2xl shadow-xl" bg-black controls autoplay></video>`;
-            } else {
-                content.innerHTML = `<img src="${url}" class="w-full h-full object-contain rounded-2xl" alt="معاينة الفاتورة والمادة">`;
-            }
-            
+            content.innerHTML = `<img src="${url}" class="w-full h-full object-contain rounded-xl">`;
             modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function openVideoModal(url) {
+            const modal = document.getElementById('media-modal');
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `<video src="${url}" class="w-full h-full object-contain rounded-xl" controls autoplay></video>`;
+            modal.classList.remove('hidden');
         }
 
         function closeMediaModal() {
-            const modal = document.getElementById('media-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => { 
-                modal.classList.add('hidden'); 
-                document.getElementById('modal-content').innerHTML = ''; // تفريغ الذاكرة لإيقاف صوت الفيديو فوراً عند الإغلاق
-            }, 300);
+            document.getElementById('media-modal').classList.add('hidden');
+            document.getElementById('modal-content').innerHTML = '';
         }
 
-        // =====================
-        // 8. GEOLOCATION PRICING
-        // =====================
         function getFeeByKilometers(km) {
             if (km <= 1.5) return 2000;   
             if (km <= 3) return 3000;   
@@ -550,7 +502,7 @@
                     if(sLat && sLng) {
                         let dist = calculateHaversineDistance(customerLat, customerLng, sLat, sLng);
                         if(dist > maxDistance) maxDistance = dist;
-                        distanceReportHtml += `<div>📍 مسافة وجبة ${merchant.store_name}: ${dist.toFixed(1)} كم</div>`;
+                        distanceReportHtml += `<div>📍 متجر ${merchant.store_name}: يبعد ${dist.toFixed(1)} كم</div>`;
                     }
                 }
             });
@@ -563,27 +515,12 @@
             
             const distanceInfo = document.getElementById('distance-info');
             distanceInfo.classList.remove('hidden');
-            
-            let storeDistanceText = "";
-            if (uniqueMerchantIds.length === 2) {
-                let store1 = stores.find(s => s.id === uniqueMerchantIds[0]);
-                let store2 = stores.find(s => s.id === uniqueMerchantIds[1]);
-                let distBetween = calculateHaversineDistance(
-                    store1.lat || store1.latitude, store1.lng || store1.longitude,
-                    store2.lat || store2.latitude, store2.lng || store2.longitude
-                );
-                storeDistanceText = `<div class="text-[10px] text-orange-600 font-bold mt-1">✨ المتاجر المزدوجة تبعد عن بعضها: ${distBetween.toFixed(2)} كم فقط (نطاق آمن وموثوق)!</div>`;
-            }
-
-            distanceInfo.innerHTML = `
-                <div class="font-bold flex items-center gap-1 text-slate-700 mb-1"><i class="fa-solid fa-route text-orange-500"></i> تفاصيل الفاتورة الجغرافية:</div>
-                ${distanceReportHtml} ${storeDistanceText}
-            `;
+            distanceInfo.innerHTML = distanceReportHtml;
             renderCart(); 
         }
 
         function requestUserLocation() {
-            document.getElementById('location-btn-text').innerText = "جاري الاتصال بالأقمار الجغرافية...";
+            document.getElementById('location-btn-text').innerText = "جاري التحديد...";
             if (tg?.LocationManager?.isInited) {
                 tg.LocationManager.getLocation(function(data) {
                     if (data?.latitude) {
@@ -600,23 +537,20 @@
                     customerLat = pos.coords.latitude; customerLng = pos.coords.longitude;
                     updateLocationSuccess();
                 }, () => {
-                    document.getElementById('location-btn-text').innerText = "فشل التقاط الـ GPS";
+                    document.getElementById('location-btn-text').innerText = "فشل تحديد موقع الـ GPS";
                 });
             }
         }
 
         function updateLocationSuccess() {
-            document.getElementById('location-btn').className = "w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-emerald-200 transition shadow-sm";
-            document.getElementById('location-btn-text').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> تم تثبيت موقع التوصيل بنجاح!`;
+            document.getElementById('location-btn').className = "w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-black py-3 px-4 rounded-xl text-xs border border-emerald-200";
+            document.getElementById('location-btn-text').innerText = `تم حفظ موقعك بنجاح!`;
             processGeographicalDelivery();
         }
 
-        // =====================
-        // 9. CHECKOUT & SEND
-        // =====================
         async function checkout(){
-            if(cart.length === 0) return alert("⚠️ السلة فارغة تماماً!");
-            if(!customerLat || !customerLng) return alert("⚠️ يرجى تثبيت موقع التسليم لحساب أجور التوصيل المزدوج المدمج!");
+            if(cart.length === 0) return;
+            if(!customerLat || !customerLng) return alert("⚠️ يرجى مشاركة الموقع أولاً.");
 
             const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
             const generatedOrderNumber = Math.floor(100000 + Math.random() * 900000); 
@@ -638,12 +572,11 @@
             try {
                 let { error } = await db.from('orders').insert([newOrder]);
                 if (error) throw error;
-
-                alert(`🎉 تم ترحيل وإرسال طلبك المزدوج بنجاح! رقم الفاتورة الموحدة المضمونة: ${generatedOrderNumber}`);
+                alert(`🎉 تم إرسال طلبك بنجاح! رقم الفاتورة: ${generatedOrderNumber}`);
                 cart = []; currentDeliveryFee = 0; closeCartModal(); backToStores(); renderCart();
                 if(tg) tg.close();
             } catch (err) {
-                alert("❌ حدث خطأ داخلي في الخادم أثناء معالجة الفاتورة.");
+                alert("❌ حدث خطأ أثناء معالجة الفاتورة.");
             }
         }
 
