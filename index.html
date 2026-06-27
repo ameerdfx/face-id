@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة نورس الرقمية</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة نورس الرقمية - واجهة فاخرة بالفيديو</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
@@ -12,146 +12,139 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700&display=swap');
-        body { font-family: 'Cairo', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght=300;400;600;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; background-color: #f6f9fc; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        .premium-shadow { box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen pb-24">
+<body class="text-slate-800 antialiased min-h-screen pb-32">
 
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm">
-        <div class="max-w-[1500px] mx-auto px-4">
-            <div class="h-16 flex items-center justify-between gap-4">
-                
-                <div class="flex items-center gap-3">
-                    <button id="back-to-stores-btn" onclick="backToStores()" class="hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 transition flex items-center justify-center">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </button>
-                    <div id="header-logo" class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-md">
-                        <i class="fa-solid fa-store text-white text-xs"></i>
-                    </div>
-                    <div>
-                        <h1 id="app-title" class="font-black text-sm leading-none">منصة نورس</h1>
-                        <p id="app-subtitle" class="text-[9px] text-slate-500 mt-0.5">التوصيل الإلكتروني</p>
-                    </div>
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-xs">
+        <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2.5">
+                <button id="back-to-stores-btn" onclick="backToStores()" class="hidden w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 active:scale-95 transition-transform">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+                <div id="header-logo" class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-md shadow-orange-500/20">
+                    <i class="fa-solid fa-store text-white text-xs"></i>
                 </div>
+                <div>
+                    <h1 id="app-title" class="font-black text-xs leading-none text-slate-900">منصة نورس</h1>
+                    <p id="app-subtitle" class="text-[9px] text-slate-400 mt-0.5 font-bold">التوصيل المزدوج المقيد</p>
+                </div>
+            </div>
 
-                <div class="relative flex-1 max-w-md">
-                    <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
-                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                    </span>
-                    <input id="global-search-input" oninput="handleGlobalSearch()" type="text" placeholder="ابحث عن متاجر أو منتجات..." class="w-full h-10 bg-slate-100 border border-slate-200 rounded-xl pr-9 pl-4 text-xs font-semibold focus:outline-none focus:border-orange-500 focus:bg-white transition-all">
-                </div>
+            <div class="relative flex-1 max-w-xs">
+                <span class="absolute inset-y-0 right-3.5 flex items-center text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </span>
+                <input id="global-search-input" oninput="handleGlobalSearch()" type="text" placeholder="ابحث عن متاجر أو وجبات..." class="w-full h-10 bg-slate-50 border border-slate-100 rounded-xl pr-9 pl-4 text-[11px] font-bold focus:outline-none focus:border-orange-500 focus:bg-white transition-all">
             </div>
         </div>
     </header>
 
-    <main class="max-w-[1500px] mx-auto px-4 py-6">
+    <main class="max-w-md mx-auto px-4 py-5">
         
         <section id="stores-section" class="space-y-4">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-utensils text-orange-600 text-sm"></i>
-                <h2 class="text-sm font-bold text-gray-950">المتاجر المفتوحة حالياً</h2>
+            <div class="flex items-center justify-between px-0.5">
+                <h2 class="text-xs font-black text-slate-900 tracking-wide flex items-center gap-1">
+                    <i class="fa-solid fa-fire text-orange-500 text-xs"></i> المتاجر النشطة حالياً
+                </h2>
+                <span class="text-[9px] font-black bg-orange-50 text-orange-600 px-2 py-0.5 rounded-lg">متجرين كحد أقصى</span>
             </div>
-            <div id="stores" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-                <div class="col-span-full py-12 text-center text-gray-400">
-                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
-                    <p class="text-xs">جاري جلب المتاجر المفتوحة...</p>
+            <div id="stores" class="space-y-4">
+                <div class="text-center py-12 text-slate-400">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2 text-orange-500"></i>
+                    <p class="text-xs font-bold">جاري جلب المتاجر المفتوحة في النجف...</p>
                 </div>
             </div>
         </section>
 
-        <section id="products-section" class="hidden space-y-5">
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 p-5 text-white shadow-md">
-                <div class="relative z-10">
-                    <p class="text-[10px] opacity-90">أنت تتصفح الآن قائمة</p>
-                    <h2 id="selected-store-name" class="text-xl font-black mt-0.5">اسم المتجر</h2>
-                </div>
-            </div>
-
-            <div id="categories-wrapper" class="bg-white p-2.5 rounded-xl border border-slate-200/80 shadow-sm hidden">
-                <div id="categories-container" class="flex gap-2 overflow-x-auto pb-0.5 scrollbar-none"></div>
-            </div>
-
-            <div id="products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4"></div>
-        </section>
-    </main>
-
-    <div id="floating-cart-btn" class="hidden fixed bottom-6 left-6 z-40 animate-bounce">
-        <button onclick="openCartModal()" class="relative flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 py-3.5 rounded-full shadow-xl hover:scale-105 active:scale-95 transition font-bold text-sm cursor-pointer">
-            <i class="fa-solid fa-cart-shopping text-base"></i>
-            <span>عرض سلة الطلب</span>
-            <span id="cart-floating-badge" class="bg-white text-orange-600 w-5 h-5 rounded-full text-[10px] font-black flex items-center justify-center shadow-sm">0</span>
-        </button>
-    </div>
-
-    <div id="cart-modal" class="fixed inset-0 bg-black/50 z-50 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
-        <div id="cart-modal-container" class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col translate-x-full transition-transform duration-300">
-            
-            <div class="bg-gradient-to-r from-orange-500 to-red-500 p-4 text-white flex justify-between items-center shadow">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-cart-shopping text-lg"></i>
-                    <div>
-                        <h2 class="font-black text-sm">سلة الطلبات الخاصة بك</h2>
-                        <p class="text-[10px] opacity-90">يرجى مراجعة وتأكيد طلبك</p>
-                    </div>
-                </div>
-                <button onclick="closeCartModal()" class="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition cursor-pointer">
-                    <i class="fa-solid fa-xmark text-sm"></i>
+        <section id="products-section" class="hidden space-y-4">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 p-5 text-white premium-shadow">
+                <p class="text-[9px] opacity-70 font-bold uppercase tracking-wider">أنت تتصفح منيو</p>
+                <h2 id="selected-store-name" class="text-base font-black mt-0.5">اسم المتجر</h2>
+                <button onclick="backToStores()" class="absolute left-4 bottom-4 bg-white/10 hover:bg-white/25 px-3 py-1.5 rounded-xl text-[10px] font-black transition backdrop-blur-md">
+                     المتاجر المجاورة <i class="fa-solid fa-plus text-[8px] mr-0.5"></i>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-4 space-y-4">
-                <div id="cart-items-list" class="space-y-2.5">
-                    </div>
+            <div id="categories-wrapper" class="bg-white p-2 rounded-2xl border border-slate-100 hidden shadow-xs">
+                <div id="categories-container" class="flex gap-2 overflow-x-auto pb-0.5 no-scrollbar"></div>
+            </div>
 
-                <div class="rounded-xl bg-slate-50 p-4 space-y-3 text-xs border border-slate-100">
-                    <div class="flex justify-between text-gray-500">
-                        <span>مجموع حساب المواد:</span>
-                        <span class="font-bold"><span id="subtotal-price">0</span> د.ع</span>
+            <div id="products" class="space-y-3.5"></div>
+        </section>
+    </main>
+
+    <div id="floating-cart-btn" class="hidden fixed bottom-6 inset-x-4 max-w-md mx-auto z-40">
+        <button onclick="openCartModal()" class="w-full flex items-center justify-between bg-gradient-to-r from-orange-500 to-red-500 text-white px-5 h-14 rounded-2xl shadow-xl active:scale-[0.98] transition-transform font-bold text-xs cursor-pointer">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-white text-orange-600 w-6 h-6 rounded-xl font-black flex items-center justify-center text-xs shadow-xs" id="cart-floating-badge">0</div>
+                <span class="font-black">مراجعة حساب السلة المزدوجة</span>
+            </div>
+            <i class="fa-solid fa-cart-shopping text-sm"></i>
+        </button>
+    </div>
+
+    <div id="cart-modal" class="fixed inset-0 bg-black/60 z-50 flex flex-col justify-end opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs">
+        <div id="cart-modal-container" class="w-full max-w-md mx-auto bg-white rounded-t-[2rem] shadow-2xl flex flex-col max-h-[85vh] translate-y-full transition-transform duration-300">
+            
+            <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto my-3"></div>
+            
+            <div class="px-5 pb-3 flex justify-between items-center border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-basket-shopping text-orange-500"></i>
+                    <h2 class="font-black text-xs text-slate-900">سلة المشتريات الذكية</h2>
+                </div>
+                <button onclick="closeCartModal()" class="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark text-xs"></i></button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+                <div id="cart-items-by-store" class="space-y-3"></div>
+
+                <div class="rounded-2xl bg-slate-50 p-4 space-y-3 text-xs border border-slate-100">
+                    <div class="flex justify-between text-slate-500 font-bold">
+                        <span>مجموع الوجبات والمواد:</span>
+                        <span class="font-black text-slate-800"><span id="subtotal-price">0</span> د.ع</span>
                     </div>
-                    <div class="flex justify-between text-gray-500 items-center">
-                        <span>أجور التوصيل حسب موقعك:</span>
-                        <span id="delivery-fee-display" class="font-bold text-orange-600">اضغط لتحديد الموقع 👇</span>
+                    <div class="flex justify-between text-slate-500 font-bold items-center">
+                        <span>أجور توصيل كابتن نورس:</span>
+                        <span id="delivery-fee-display" class="font-black text-orange-500 bg-orange-50 px-2 py-0.5 rounded-lg">قفل الـ GPS للحساب 📍</span>
                     </div>
-                    <div id="distance-info" class="text-[10px] text-emerald-600 font-bold hidden text-right bg-emerald-50 p-2 rounded-lg border border-emerald-100"></div>
-                    <div class="flex justify-between items-center text-sm font-black text-gray-900 pt-2.5 border-t border-slate-200">
-                        <span>المجموع النهائي الكلي:</span>
-                        <span class="text-orange-600 text-base"><span id="total-price">0</span> د.ع</span>
+                    <div id="distance-info" class="text-[10px] text-emerald-700 font-bold hidden bg-emerald-50 p-3 rounded-xl border border-emerald-100 space-y-1"></div>
+                    <div class="flex justify-between items-center text-xs font-black text-slate-900 pt-2.5 border-t border-slate-200">
+                        <span>المجموع النهائي الكلي للفاتورة:</span>
+                        <span class="text-orange-600 text-base font-black"><span id="total-price">0</span> د.ع</span>
                     </div>
                 </div>
 
                 <div class="space-y-3">
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 mb-1">ملاحظات خاصة ومميزة للطلب:</label>
-                        <input id="order-notes" type="text" placeholder="مثال: بدون بصل، زيادة كاتشب..." class="w-full border border-gray-200 rounded-xl p-2.5 text-xs focus:outline-orange-500 bg-slate-50 font-semibold">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-gray-500 mb-1">تحديد العنوان الفعلي (موقعك الحالي):</label>
-                        <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full flex items-center justify-center gap-2 bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-orange-200 transition shadow-sm cursor-pointer">
-                            <i class="fa-solid fa-location-crosshairs text-xs animate-pulse"></i>
-                            <span id="location-btn-text">اضغط هنا لتحديد موقعك عبر الخريطة والـ GPS</span>
-                        </button>
-                    </div>
+                    <input id="order-notes" type="text" placeholder="أي تعليمات؟ (مثال: حار، التوصيل معاً)..." class="w-full h-11 border border-slate-200 rounded-xl px-3.5 text-xs font-bold bg-slate-50 focus:bg-white focus:outline-none focus:border-orange-500">
+                    <button type="button" onclick="requestUserLocation()" id="location-btn" class="w-full h-11 flex items-center justify-center gap-2 bg-slate-950 text-white font-black rounded-xl text-xs active:scale-95 transition-transform cursor-pointer">
+                        <i class="fa-solid fa-location-crosshairs text-orange-500 text-xs animate-pulse"></i>
+                        <span id="location-btn-text">مشاركة موقع التسليم وتثبيت العنوان الفعلي</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="p-4 border-t border-slate-100 bg-slate-50">
-                <button onclick="checkout()" class="w-full h-11 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-md transition flex items-center justify-center gap-2 cursor-pointer text-xs">
-                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
-                    <span>إرسال وتأكيد الطلب الآن</span>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 rounded-t-xl">
+                <button onclick="checkout()" class="w-full h-11 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black shadow-md transition text-xs cursor-pointer">
+                    تأكيد وإرسال الفاتورة المزدوجة
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="media-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" onclick="closeMediaModal()">
-        <div class="relative max-w-3xl w-full max-h-[80vh] flex items-center justify-center" onclick="event.stopPropagation()">
-            <button onclick="closeMediaModal()" class="absolute -top-10 left-0 text-white text-2xl hover:text-gray-300 cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
+    <div id="media-modal" class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300 shadow-2xl" onclick="closeMediaModal()">
+        <div class="relative max-w-sm w-full bg-black rounded-3xl overflow-hidden shadow-2xl border border-slate-800" onclick="event.stopPropagation()">
+            <button onclick="closeMediaModal()" class="absolute top-4 left-4 z-50 w-8 h-8 rounded-full bg-black/40 text-white hover:bg-black/60 flex items-center justify-center cursor-pointer transition">
+                <i class="fa-solid fa-xmark text-xs"></i>
             </button>
-            <div id="modal-content" class="w-full h-full rounded-xl overflow-hidden flex items-center justify-center bg-zinc-950 shadow-2xl"></div>
+            <div id="modal-content" class="w-full aspect-square flex items-center justify-center bg-zinc-950"></div>
         </div>
     </div>
 
@@ -165,18 +158,10 @@
 
         const db = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        // =====================
-        // 2. STATE VARIABLES
-        // =====================
-        let stores = [];
-        let products = [];
-        let cart = [];
-        let selectedMerchant = null;
-        let selectedMerchantData = null; 
-        let customerLat = null; 
-        let customerLng = null;
-        let currentDeliveryFee = 0; 
-        let selectedCategory = "الكل"; 
+        let stores = []; let products = []; let cart = [];
+        let selectedMerchant = null; let selectedMerchantData = null; 
+        let customerLat = null; let customerLng = null;
+        let currentDeliveryFee = 0; let selectedCategory = "الكل"; 
 
         const tg = window.Telegram?.WebApp;
         if(tg) tg.expand();
@@ -184,55 +169,57 @@
         const customerTelegramId = tg?.initDataUnsafe?.user?.id || 5503702576; 
         const customerPhone = "9647847121378"; 
 
-        // =====================
-        // 3. MEDIA UTILITIES
-        // =====================
+        function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); 
+        }
+
         async function getTelegramImageUrl(fileId) {
             if (!fileId) return null;
             try {
                 let response = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
                 let json = await response.json();
-                if(json.ok) {
-                    return `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
-                }
+                if(json.ok) return `https://api.telegram.org/file/bot${botToken}/${json.result.file_path}`;
             } catch (e) { console.error(e); }
             return null; 
         }
 
         // =====================
-        // 4. LOAD STORES & FILTERING
+        // 4. LOAD STORES
         // =====================
         async function loadStores(){
-            let { data } = await db
-                .from('merchants')
-                .select('*')
-                .eq('is_open', true);
-
+            let { data } = await db.from('merchants').select('*').eq('is_open', true);
             stores = data || [];
             displayStores(stores);
         }
 
         async function displayStores(storesList) {
-            const storesContainer = document.getElementById('stores');
+            const container = document.getElementById('stores');
             if(storesList.length === 0) {
-                storesContainer.innerHTML = `<div class="col-span-full py-6 text-center text-gray-500 text-xs">لا توجد متاجر مفتوحة حالياً تطابق بحثك.</div>`;
+                container.innerHTML = `<div class="text-center py-6 text-gray-500 text-xs">لا تـوجد متاجر مفتوحة حالياً.</div>`;
                 return;
             }
 
-            storesContainer.innerHTML = ''; 
+            container.innerHTML = ''; 
             for (let s of storesList) {
                 const imageUrl = s.store_image_file_id ? await getTelegramImageUrl(s.store_image_file_id) : null;
                 const imageHtml = imageUrl 
-                    ? `<img src="${imageUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" alt="${s.store_name}">`
-                    : `<div class="w-full h-full text-orange-600 flex items-center justify-center text-2xl bg-orange-50"><i class="fa-solid fa-utensils"></i></div>`;
+                    ? `<img src="${imageUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="${s.store_name}">`
+                    : `<div class="w-full h-full text-orange-500 flex items-center justify-center text-2xl bg-orange-50"><i class="fa-solid fa-utensils"></i></div>`;
 
-                storesContainer.innerHTML += `
-                <div onclick="openStore('${s.id}','${s.store_name}')" class="group overflow-hidden rounded-2xl bg-white border border-slate-200 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-orange-400">
-                    <div class="relative h-36 bg-slate-100 overflow-hidden">${imageHtml}</div>
-                    <div class="p-3.5 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800 text-xs line-clamp-1">${s.store_name}</h3>
-                        <div class="w-7 h-7 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
-                            <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                container.innerHTML += `
+                <div onclick="openStore('${s.id}','${s.store_name}')" class="group overflow-hidden rounded-2xl bg-white border border-slate-150/60 cursor-pointer transition-all duration-300 hover:border-orange-400 p-2 flex items-center gap-3 shadow-xs">
+                    <div class="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-50 shrink-0">${imageHtml}</div>
+                    <div class="flex-1 min-w-0 flex items-center justify-between">
+                        <div>
+                            <h3 class="font-black text-slate-800 text-xs line-clamp-1">${s.store_name}</h3>
+                            <p class="text-[10px] text-slate-400 font-bold mt-0.5">⏱️ 20-35 دقيقة • متجر نشط</p>
+                        </div>
+                        <div class="w-7 h-7 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
+                            <i class="fa-solid fa-chevron-left text-[9px]"></i>
                         </div>
                     </div>
                 </div>`;
@@ -240,29 +227,19 @@
         }
 
         function backToStores() {
-            selectedMerchant = null;
-            selectedMerchantData = null;
-            cart = []; // تصفير السلة عند تغيير المتجر منعاً لتداخل المتاجر
-            renderCart();
-
+            selectedMerchant = null; selectedMerchantData = null;
             document.getElementById('products-section').classList.add('hidden');
-            document.getElementById('floating-cart-btn').classList.add('hidden');
             document.getElementById('back-to-stores-btn').classList.add('hidden');
-            
             document.getElementById('stores-section').classList.remove('hidden');
             document.getElementById('header-logo').classList.remove('hidden');
-            
             document.getElementById('app-title').innerText = "منصة نورس";
             document.getElementById('app-subtitle').innerText = "التوصيل الإلكتروني";
             document.getElementById('global-search-input').value = '';
-            document.getElementById('global-search-input').placeholder = "ابحث عن متاجر...";
-            
+            document.getElementById('global-search-input').placeholder = "ابحث عن متاجر أو منتجات...";
             displayStores(stores);
+            updateFloatingCartButtonVisibility();
         }
 
-        // =====================
-        // 5. GLOBAL SEARCH ENGINE
-        // =====================
         function handleGlobalSearch() {
             const query = document.getElementById('global-search-input').value.trim().toLowerCase();
             if (selectedMerchant === null) {
@@ -274,42 +251,35 @@
         }
 
         // =====================
-        // 6. LOAD PRODUCTS & CATEGORIES
+        // 5. LOAD PRODUCTS & MEDIA
         // =====================
         async function openStore(id, storeName){
             selectedMerchant = id;
             selectedMerchantData = stores.find(s => s.id === id); 
             selectedCategory = "الكل"; 
             document.getElementById('global-search-input').value = ''; 
-            document.getElementById('global-search-input').placeholder = "ابحث داخل هذا المتجر...";
+            document.getElementById('global-search-input').placeholder = "ابحث في قائمة وجبات هذا المتجر...";
 
             document.getElementById('stores-section').classList.add('hidden');
             document.getElementById('header-logo').classList.add('hidden');
-            
             document.getElementById('products-section').classList.remove('hidden');
-            document.getElementById('floating-cart-btn').classList.remove('hidden');
             document.getElementById('back-to-stores-btn').classList.remove('hidden');
             
             document.getElementById('selected-store-name').innerText = storeName;
             document.getElementById('app-title').innerText = storeName;
-            document.getElementById('app-subtitle').innerText = "متجر مفتوح ونشط";
+            document.getElementById('app-subtitle').innerText = "قائمة المواد الطازجة";
             
-            if(customerLat && customerLng) { processGeographicalDelivery(); }
+            updateFloatingCartButtonVisibility();
 
             const productsContainer = document.getElementById('products');
-            productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 text-xs"><i class="fa-solid fa-spinner animate-spin"></i> جاري جلب قائمة المواد...</div>`;
+            productsContainer.innerHTML = `<div class="col-span-full text-center py-8 text-gray-400 text-xs"><i class="fa-solid fa-spinner animate-spin text-orange-500"></i> جاري تنسيق الميديا والمنيو...</div>`;
 
-            let { data } = await db
-                .from('products')
-                .select('*')
-                .eq('merchant_id', id)
-                .eq('is_available', true);
-
+            let { data } = await db.from('products').select('*').eq('merchant_id', id).eq('is_available', true);
             products = data || [];
 
             if(products.length === 0) {
                 document.getElementById('categories-wrapper').classList.add('hidden');
-                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500 text-xs">لا توجد مواد متوفرة حالياً في هذا المتجر.</div>`;
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500 text-xs">لا توجد مواد متوفرة حالياً.</div>`;
                 return;
             }
 
@@ -321,14 +291,12 @@
         function generateCategoryTabs() {
             const container = document.getElementById('categories-container');
             const categories = ["الكل", ...new Set(products.map(p => p.category).filter(Boolean))];
-            
             container.innerHTML = '';
             categories.forEach(cat => {
                 const isActive = cat === selectedCategory;
                 const btnClass = isActive 
-                    ? "bg-orange-500 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition shadow-sm"
-                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap transition";
-                
+                    ? "bg-orange-500 text-white font-black px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold px-3.5 py-1.5 rounded-xl text-xs whitespace-nowrap";
                 container.innerHTML += `<button onclick="selectCategory('${cat}')" class="${btnClass}">${cat}</button>`;
             });
         }
@@ -336,100 +304,216 @@
         function selectCategory(category) {
             selectedCategory = category;
             generateCategoryTabs();
-            const query = document.getElementById('global-search-input').value.trim().toLowerCase();
-            filterProducts(query);
+            filterProducts(document.getElementById('global-search-input').value.trim().toLowerCase());
         }
 
         function filterProducts(searchQuery = '') {
             const filtered = products.filter(p => {
                 const matchesCategory = (selectedCategory === "الكل" || p.category === selectedCategory);
-                const matchesSearch = (!searchQuery || 
-                                       p.name.toLowerCase().includes(searchQuery) || 
-                                       (p.description && p.description.toLowerCase().includes(searchQuery)));
+                const matchesSearch = (!searchQuery || p.name.toLowerCase().includes(searchQuery));
                 return matchesCategory && matchesSearch;
             });
             displayProducts(filtered);
         }
 
+        // تم إصلاح دالة البناء لإرسال روابط الميديا بشكل نصي ناصع ومعزول للمودال يمنع كسر الكود
         async function displayProducts(productsList) {
             const productsContainer = document.getElementById('products');
             if(productsList.length === 0) {
-                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">لم نجد أي مواد تطابق البحث.</div>`;
+                productsContainer.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">لا توجد مواد مطابقة للفرز.</div>`;
                 return;
             }
 
             productsContainer.innerHTML = ''; 
             for (let p of productsList) {
-                let productMediaHtml = '';
+                let mediaElementHtml = '';
 
                 if (p.media_type === 'video' && p.video_file_id) {
                     const videoUrl = await getTelegramImageUrl(p.video_file_id);
                     if (videoUrl) {
-                        productMediaHtml = `
-                            <div class="w-full h-full relative cursor-pointer flex items-center justify-center group" onclick="openMediaModal('${videoUrl}', 'video')">
-                                <video src="${videoUrl}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110" muted playsinline></video>
-                                <div class="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/40 transition-colors">
-                                    <div class="w-8 h-8 bg-white/90 text-gray-900 rounded-full flex items-center justify-center shadow-md pl-0.5">
-                                        <i class="fa-solid fa-play text-[10px]"></i>
+                        // تم إصلاح حدث onclick وإضافة دالة تمرير آمنة تمنع كسر الجافا سكريبت بسبب الروابط
+                        mediaElementHtml = `
+                            <div class="w-20 h-20 relative rounded-xl overflow-hidden bg-slate-950 cursor-pointer shadow-xs shrink-0" onclick="triggerMediaPlay('${videoUrl}', 'video')">
+                                <video src="${videoUrl}" class="w-full h-full object-cover" muted playsinline autoplay loop></video>
+                                <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                    <div class="w-6 h-6 bg-white/90 text-slate-900 rounded-full flex items-center justify-center shadow shadow-md pl-0.5 animate-pulse">
+                                        <i class="fa-solid fa-play text-[8px]"></i>
                                     </div>
                                 </div>
                             </div>`;
                     }
                 } 
-                if (!productMediaHtml && p.image_file_id) {
+                if (!mediaElementHtml && p.image_file_id) {
                     const imageUrl = await getTelegramImageUrl(p.image_file_id);
                     if (imageUrl) {
-                        productMediaHtml = `<img src="${imageUrl}" class="w-full h-full object-cover cursor-pointer transition duration-500 group-hover:scale-110" alt="${p.name}" onclick="openMediaModal('${imageUrl}', 'image')">`;
+                        mediaElementHtml = `<img src="${imageUrl}" class="w-20 h-20 object-cover rounded-xl cursor-pointer shrink-0 shadow-xs" alt="${p.name}" onclick="triggerMediaPlay('${imageUrl}', 'image')">`;
                     }
                 }
-                if (!productMediaHtml) {
-                    productMediaHtml = `<div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400"><i class="fa-solid fa-cookie-bite text-lg"></i></div>`;
+                if (!mediaElementHtml) {
+                    mediaElementHtml = `<div class="w-20 h-20 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center text-base shrink-0"><i class="fa-solid fa-cookie-bite"></i></div>`;
                 }
 
                 productsContainer.innerHTML += `
-                <div class="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-orange-400 hover:shadow-md transition duration-300">
-                    <div class="relative h-40 bg-slate-100 overflow-hidden">
-                        ${productMediaHtml}
-                        <div class="absolute top-2 left-2">
-                            <span class="bg-white/95 backdrop-blur px-2.5 py-0.5 rounded-lg text-xs font-bold text-emerald-600 shadow-sm">${p.price.toLocaleString()} د.ع</span>
+                <div class="bg-white rounded-2xl border border-slate-150 p-3 flex items-center justify-between gap-3 shadow-xs">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        ${mediaElementHtml}
+                        <div class="min-w-0">
+                            <h4 class="font-black text-xs text-slate-900 line-clamp-1">${p.name}</h4>
+                            <p class="text-[11px] text-orange-600 font-black mt-1">${p.price.toLocaleString()} د.ع</p>
                         </div>
                     </div>
-                    <div class="p-3.5">
-                        <h3 class="text-xs font-bold text-slate-800 line-clamp-1">${p.name}</h3>
-                        <p class="text-slate-500 text-[11px] mt-1 h-6 overflow-hidden">${p.description || ""}</p>
-                        <button onclick="addToCart('${p.id}','${p.name}',${p.price})" class="mt-3 w-full h-9 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold transition cursor-pointer">
-                            <i class="fa-solid fa-plus mr-1"></i> إضافة للسلة
-                        </button>
-                    </div>
+                    <button onclick="addToCart('${p.id}','${p.name}',${p.price}, '${p.merchant_id}')" class="h-9 w-9 rounded-xl bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center shadow-sm cursor-pointer transition active:scale-90 shrink-0">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                    </button>
                 </div>`;
             }
         }
 
+        // دالة تفعيل الميديا المصلحة والآمنة 100%
+        function triggerMediaPlay(url, type) {
+            openMediaModal(url, type);
+        }
+
         // =====================
-        // 7. NAWRA MODAL WINDOW SYSTEM (السلة المنبثقة)
+        // 6. MULTI-STORE CART SYSTEM (المقيد)
+        // =====================
+        function addToCart(id, name, price, merchantId){
+            let storeData = stores.find(s => s.id === merchantId);
+            let storeName = storeData ? storeData.store_name : "متجر مجهول";
+            const currentUniqueStores = [...new Set(cart.map(item => item.merchant_id))];
+
+            if (currentUniqueStores.length >= 2 && !currentUniqueStores.includes(merchantId)) {
+                alert("⚠️ عذراً، يمكنك الطلب من متجرين كحد أقصى في الفاتورة المشتركة لضمان الجودة وسرعة التوصيل.");
+                return;
+            }
+
+            if (currentUniqueStores.length === 1 && !currentUniqueStores.includes(merchantId)) {
+                let firstStore = stores.find(s => s.id === currentUniqueStores[0]);
+                let secondStore = storeData;
+
+                if (firstStore && secondStore) {
+                    let lat1 = firstStore.lat || firstStore.latitude; let lon1 = firstStore.lng || firstStore.longitude;
+                    let lat2 = secondStore.lat || secondStore.latitude; let lon2 = secondStore.lng || secondStore.longitude;
+
+                    if (lat1 && lon1 && lat2 && lon2) {
+                        let distanceBetweenStores = calculateHaversineDistance(lat1, lon1, lat2, lon2);
+                        if (distanceBetweenStores > 1.0) {
+                            alert(`⚠️ تعذر الدمج المشترك!\nالمسافة الجغرافية بين "${firstStore.store_name}" و "${secondStore.store_name}" تبلغ (${distanceBetweenStores.toFixed(2)} كم).\nيجب اختيار متاجر قريبة (أقل من 1 كم الفاصل بينهما) لتأمين الدليفري الذكي التنافسي.`);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            let item = cart.find(x => x.product_id === id);
+            if(item) {
+                item.qty++; item.total = item.price * item.qty;
+            } else {
+                cart.push({product_id: id, name, price, qty: 1, total: price, merchant_id: merchantId, merchant_name: storeName});
+            }
+            renderCart();
+            updateFloatingCartButtonVisibility();
+        }
+
+        function changeQty(id, change) {
+            let item = cart.find(x => x.product_id === id);
+            if(item) {
+                item.qty += change; item.total = item.price * item.qty;
+                if(item.qty <= 0) cart = cart.filter(x => x.product_id !== id);
+            }
+            renderCart();
+            updateFloatingCartButtonVisibility();
+        }
+
+        function updateFloatingCartButtonVisibility() {
+            const btn = document.getElementById('floating-cart-btn');
+            const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+            if(totalItems > 0) btn.classList.remove('hidden'); else btn.classList.add('hidden');
+        }
+
+        function renderCart(){
+            const cartContainer = document.getElementById('cart-items-by-store');
+            const totalItems = cart.reduce((a, b) => a + b.qty, 0);
+            const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
+
+            document.getElementById('subtotal-price').innerText = subtotalPrice.toLocaleString();
+            document.getElementById('total-price').innerText = (subtotalPrice + currentDeliveryFee).toLocaleString();
+            document.getElementById("cart-floating-badge").innerText = totalItems;
+
+            if(cart.length === 0) {
+                cartContainer.innerHTML = `<div class="text-center py-8 text-gray-400 text-xs font-semibold">السلة فارغة، أضف مواد من المنيو!</div>`;
+                return;
+            }
+
+            const groupedCart = {};
+            cart.forEach(item => {
+                if(!groupedCart[item.merchant_id]) {
+                    groupedCart[item.merchant_id] = { storeName: item.merchant_name, items: [] };
+                }
+                groupedCart[item.merchant_id].items.push(item);
+            });
+
+            cartContainer.innerHTML = '';
+            for(let mId in groupedCart) {
+                let storeGroup = groupedCart[mId];
+                let blockHtml = `
+                <div class="border border-slate-200 rounded-2xl bg-slate-50 p-3 space-y-2">
+                    <div class="flex items-center gap-1.5 text-xs font-bold text-gray-900 border-b border-slate-200/50 pb-1.5">
+                        <i class="fa-solid fa-shop text-orange-500"></i>
+                        <span>من متجر: ${storeGroup.storeName}</span>
+                    </div>
+                    <div class="space-y-2">`;
+
+                storeGroup.items.forEach(c => {
+                    blockHtml += `
+                    <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-150 shadow-2xs">
+                        <div class="min-w-0 flex-1 pl-1">
+                            <div class="font-bold text-slate-800 text-xs line-clamp-1">${c.name}</div>
+                            <div class="text-[10px] text-orange-600 font-black mt-0.5">${c.total.toLocaleString()} د.ع</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="changeQty('${c.product_id}',-1)" class="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-slate-600"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                            <div class="font-black text-xs w-4 text-center">${c.qty}</div>
+                            <button onclick="changeQty('${c.product_id}',1)" class="w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                        </div>
+                    </div>`;
+                });
+
+                blockHtml += `</div></div>`;
+                cartContainer.innerHTML += blockHtml;
+            }
+        }
+
+        // =====================
+        // 7. MODALS WINDOWS & LIGHTBOX
         // =====================
         function openCartModal() {
+            renderCart();
+            if(customerLat && customerLng) { processGeographicalDelivery(); }
             const modal = document.getElementById('cart-modal');
             const container = document.getElementById('cart-modal-container');
-            modal.classList.remove('pointer-events-none');
-            modal.classList.remove('opacity-0');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
             container.classList.remove('translate-x-full');
         }
 
         function closeCartModal() {
             const modal = document.getElementById('cart-modal');
             const container = document.getElementById('cart-modal-container');
-            modal.classList.add('opacity-0');
-            modal.classList.add('pointer-events-none');
+            modal.classList.add('opacity-0', 'pointer-events-none');
             container.classList.add('translate-x-full');
         }
 
         function openMediaModal(url, type) {
             const modal = document.getElementById('media-modal');
             const content = document.getElementById('modal-content');
-            content.innerHTML = type === 'video' 
-                ? `<video src="${url}" class="max-w-full max-h-[80vh] rounded-xl" controls autoplay></video>`
-                : `<img src="${url}" class="max-w-full max-h-[80vh] object-contain rounded-xl" alt="معاينة">`;
+            
+            // إصلاح شامل للمشغل ليعمل بصوت كامل وعالي وتأكيد التجاوبية للـ Lightbox
+            if (type === 'video') {
+                content.innerHTML = `<video src="${url}" class="w-full h-full object-contain rounded-2xl shadow-xl" bg-black controls autoplay></video>`;
+            } else {
+                content.innerHTML = `<img src="${url}" class="w-full h-full object-contain rounded-2xl" alt="معاينة الفاتورة والمادة">`;
+            }
+            
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.remove('opacity-0'), 10);
         }
@@ -437,51 +521,69 @@
         function closeMediaModal() {
             const modal = document.getElementById('media-modal');
             modal.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            setTimeout(() => { 
+                modal.classList.add('hidden'); 
+                document.getElementById('modal-content').innerHTML = ''; // تفريغ الذاكرة لإيقاف صوت الفيديو فوراً عند الإغلاق
+            }, 300);
         }
 
         // =====================
-        // 8. GEOLOCATION & DISTANCE
+        // 8. GEOLOCATION PRICING
         // =====================
-        function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; 
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-            return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))); 
-        }
-
         function getFeeByKilometers(km) {
             if (km <= 1.5) return 2000;   
-            if (km <= 2) return 3000;   
+            if (km <= 3) return 3000;   
             if (km <= 7) return 4000;  
             return 5000;                
         }
 
         function processGeographicalDelivery() {
-            if (!customerLat || !customerLng || !selectedMerchantData) return;
-            const storeLat = selectedMerchantData.lat || selectedMerchantData.latitude;
-            const storeLng = selectedMerchantData.lng || selectedMerchantData.longitude;
+            if (!customerLat || !customerLng || cart.length === 0) return;
 
-            if (!storeLat || !storeLng) {
-                currentDeliveryFee = 3000; 
-                document.getElementById('delivery-fee-display').innerText = "3,000 د.ع (افتراضي)";
-                renderCart();
-                return;
-            }
+            const uniqueMerchantIds = [...new Set(cart.map(item => item.merchant_id))];
+            let maxDistance = 0; let distanceReportHtml = '';
 
-            const distance = calculateHaversineDistance(customerLat, customerLng, storeLat, storeLng);
-            currentDeliveryFee = getFeeByKilometers(distance);
+            uniqueMerchantIds.forEach(mId => {
+                let merchant = stores.find(s => s.id === mId);
+                if(merchant) {
+                    let sLat = merchant.lat || merchant.latitude; let sLng = merchant.lng || merchant.longitude;
+                    if(sLat && sLng) {
+                        let dist = calculateHaversineDistance(customerLat, customerLng, sLat, sLng);
+                        if(dist > maxDistance) maxDistance = dist;
+                        distanceReportHtml += `<div>📍 مسافة وجبة ${merchant.store_name}: ${dist.toFixed(1)} كم</div>`;
+                    }
+                }
+            });
+
+            let baseFee = getFeeByKilometers(maxDistance);
+            let extraStoresCount = uniqueMerchantIds.length - 1;
+            currentDeliveryFee = baseFee + (extraStoresCount * 1500);
+
             document.getElementById('delivery-fee-display').innerText = `${currentDeliveryFee.toLocaleString()} د.ع`;
             
             const distanceInfo = document.getElementById('distance-info');
             distanceInfo.classList.remove('hidden');
-            distanceInfo.innerHTML = `<i class="fa-solid fa-car-side"></i> المسافة الفعلية للمتجر: <span class="font-black">${distance.toFixed(2)} كم</span>`;
+            
+            let storeDistanceText = "";
+            if (uniqueMerchantIds.length === 2) {
+                let store1 = stores.find(s => s.id === uniqueMerchantIds[0]);
+                let store2 = stores.find(s => s.id === uniqueMerchantIds[1]);
+                let distBetween = calculateHaversineDistance(
+                    store1.lat || store1.latitude, store1.lng || store1.longitude,
+                    store2.lat || store2.latitude, store2.lng || store2.longitude
+                );
+                storeDistanceText = `<div class="text-[10px] text-orange-600 font-bold mt-1">✨ المتاجر المزدوجة تبعد عن بعضها: ${distBetween.toFixed(2)} كم فقط (نطاق آمن وموثوق)!</div>`;
+            }
+
+            distanceInfo.innerHTML = `
+                <div class="font-bold flex items-center gap-1 text-slate-700 mb-1"><i class="fa-solid fa-route text-orange-500"></i> تفاصيل الفاتورة الجغرافية:</div>
+                ${distanceReportHtml} ${storeDistanceText}
+            `;
             renderCart(); 
         }
 
         function requestUserLocation() {
-            document.getElementById('location-btn-text').innerText = "جاري الاتصال بالنظام...";
+            document.getElementById('location-btn-text').innerText = "جاري الاتصال بالأقمار الجغرافية...";
             if (tg?.LocationManager?.isInited) {
                 tg.LocationManager.getLocation(function(data) {
                     if (data?.latitude) {
@@ -494,125 +596,58 @@
 
         function fallbackToBrowserGeolocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        customerLat = position.coords.latitude; customerLng = position.coords.longitude;
-                        updateLocationSuccess();
-                    },
-                    () => {
-                        document.getElementById('location-btn-text').innerText = "فشل تحديد الموقع التلقائي";
-                        alert("⚠️ يرجى التأكد من تشغيل الـ GPS بالموبايل والسماح بالوصول للموقع.");
-                    }
-                );
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    customerLat = pos.coords.latitude; customerLng = pos.coords.longitude;
+                    updateLocationSuccess();
+                }, () => {
+                    document.getElementById('location-btn-text').innerText = "فشل التقاط الـ GPS";
+                });
             }
         }
 
         function updateLocationSuccess() {
             document.getElementById('location-btn').className = "w-full flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 font-bold py-2.5 px-4 rounded-xl text-xs border border-emerald-200 transition shadow-sm";
-            document.getElementById('location-btn-text').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> تم التقاط وتثبيت إحداثيات موقعك!`;
+            document.getElementById('location-btn-text').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> تم تثبيت موقع التوصيل بنجاح!`;
             processGeographicalDelivery();
         }
 
         // =====================
-        // 9. CART SYSTEM
-        // =====================
-        function addToCart(id, name, price){
-            let item = cart.find(x => x.product_id === id);
-            if(item) item.qty++;
-            else cart.push({product_id: id, name, price, qty: 1, total: price});
-            renderCart();
-        }
-
-        function changeQty(id, change) {
-            let item = cart.find(x => x.product_id === id);
-            if(item) {
-                item.qty += change;
-                item.total = item.price * item.qty;
-                if(item.qty <= 0) cart = cart.filter(x => x.product_id !== id);
-            }
-            renderCart();
-        }
-
-        function renderCart(){
-            const cartContainer = document.getElementById('cart-items-list');
-            const totalItems = cart.reduce((a, b) => a + b.qty, 0);
-            const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
-
-            document.getElementById('subtotal-price').innerText = subtotalPrice.toLocaleString();
-            document.getElementById('total-price').innerText = (subtotalPrice + currentDeliveryFee).toLocaleString();
-            document.getElementById("cart-floating-badge").innerText = totalItems;
-
-            if(cart.length === 0) {
-                cartContainer.innerHTML = `<div class="text-center py-12 text-gray-400 text-xs">السلة فارغة، أضف بعض المنتجات!</div>`;
-                return;
-            }
-
-            cartContainer.innerHTML = '';
-            cart.forEach(c => {
-                cartContainer.innerHTML += `
-                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                    <div>
-                        <div class="font-bold text-slate-800 text-xs">${c.name}</div>
-                        <div class="text-[11px] text-orange-600 font-black mt-0.5">${c.total.toLocaleString()} د.ع</div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="changeQty('${c.product_id}',-1)" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
-                            <i class="fa-solid fa-minus text-[9px]"></i>
-                        </button>
-                        <div class="font-black text-xs w-5 text-center">${c.qty}</div>
-                        <button onclick="changeQty('${c.product_id}',1)" class="w-6 h-6 rounded-full bg-orange-500 text-white hover:scale-110 transition flex items-center justify-center">
-                            <i class="fa-solid fa-plus text-[9px]"></i>
-                        </button>
-                    </div>
-                </div>`;
-            });
-        }
-
-        // =====================
-        // 10. CHECKOUT
+        // 9. CHECKOUT & SEND
         // =====================
         async function checkout(){
-            if(!selectedMerchant) return alert("⚠️ يرجى اختيار المتجر أولاً!");
             if(cart.length === 0) return alert("⚠️ السلة فارغة تماماً!");
-            if(!customerLat || !customerLng) {
-                return alert("⚠️ يرجى تحديد موقع التوصيل الفعلي عبر الـ GPS أولاً لحساب الفاتورة بدقة.");
-            }
+            if(!customerLat || !customerLng) return alert("⚠️ يرجى تثبيت موقع التسليم لحساب أجور التوصيل المزدوج المدمج!");
 
             const subtotalPrice = cart.reduce((a, b) => a + b.price * b.qty, 0);
             const generatedOrderNumber = Math.floor(100000 + Math.random() * 900000); 
+            const uniqueMerchantIds = [...new Set(cart.map(item => item.merchant_id))];
 
             const newOrder = {
-                merchant_id: selectedMerchant,
+                merchant_id: uniqueMerchantIds[0], 
                 customer_telegram_id: customerTelegramId,
                 customer_phone: customerPhone,
                 address: `http://maps.google.com/?q=${customerLat},${customerLng}`,
-                customer_lat: customerLat,
-                customer_lng: customerLng,
+                customer_lat: customerLat, customer_lng: customerLng,
                 total_amount: subtotalPrice + currentDeliveryFee, 
                 delivery_fee: currentDeliveryFee, 
                 order_items: JSON.stringify(cart), 
                 notes: document.getElementById('order-notes').value || "",
-                status: "pending", 
-                order_number: generatedOrderNumber
+                status: "pending", order_number: generatedOrderNumber
             };
 
             try {
                 let { error } = await db.from('orders').insert([newOrder]);
                 if (error) throw error;
 
-                alert(`🎉 تم استلام وإرسال طلبك بنجاح! رقم الطلب: ${generatedOrderNumber}`);
-                cart = []; currentDeliveryFee = 0; 
-                closeCartModal();
-                backToStores(); 
-                renderCart();
+                alert(`🎉 تم ترحيل وإرسال طلبك المزدوج بنجاح! رقم الفاتورة الموحدة المضمونة: ${generatedOrderNumber}`);
+                cart = []; currentDeliveryFee = 0; closeCartModal(); backToStores(); renderCart();
                 if(tg) tg.close();
             } catch (err) {
-                alert("❌ حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.");
+                alert("❌ حدث خطأ داخلي في الخادم أثناء معالجة الفاتورة.");
             }
         }
 
         loadStores();
-        renderCart();
     </script>
 </body>
 </html>
